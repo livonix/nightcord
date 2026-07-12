@@ -1,6 +1,6 @@
 packages:
   - packages/*
 allowBuilds:
-  electron: set this to true or false
-  electron-winstaller: set this to true or false
-  esbuild: set this to true or false
+  electron: false
+  electron-winstaller: false
+  esbuild: false
