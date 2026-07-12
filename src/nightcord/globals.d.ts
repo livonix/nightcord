@@ -5,12 +5,8 @@
  */
 
 declare global {
-    export var VesktopNative: typeof import("preload/VesktopNative").VesktopNative;
-    export var Vesktop: typeof import("renderer/index");
     export var VesktopPatchGlobals: any;
-    export var Vencord: any;
 
-    export var IS_DEV: boolean;
     export var Nightcord_GIT_HASH: string;
 }
 

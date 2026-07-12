@@ -5,7 +5,7 @@
  */
 
 import { ipcRenderer } from "electron/renderer";
-import type { IpcEvents, UpdaterIpcEvents } from "shared/IpcEvents";
+import type { IpcEvents, UpdaterIpcEvents } from "../shared/IpcEvents";
 
 export function invoke<T = any>(event: IpcEvents | UpdaterIpcEvents, ...args: any[]) {
     return ipcRenderer.invoke(event, ...args) as Promise<T>;

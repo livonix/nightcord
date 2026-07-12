@@ -544,4 +544,4 @@ export interface RenderModalProps {
     onClose(): void;
 }
 
-export type ModalSize = "small" | "medium" | "large" | "dynamic";
+export type ModalSize = "sm" | "md" | "lg" | "xl" | "dynamic";

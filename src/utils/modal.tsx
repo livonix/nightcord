@@ -22,9 +22,9 @@ import type { ComponentType, PropsWithChildren, ReactNode, Ref } from "react";
 import { LazyComponent } from "./react";
 
 export const enum ModalSize {
-    SMALL = "small",
-    MEDIUM = "medium",
-    LARGE = "large",
+    SMALL = "sm",
+    MEDIUM = "md",
+    LARGE = "lg",
     DYNAMIC = "dynamic",
 }
 

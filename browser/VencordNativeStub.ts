@@ -134,11 +134,27 @@ window.VencordNative = {
         openFolder: async () => Promise.reject("settings:openFolder is not supported on web"),
     },
 
+    desktopCapture: {
+        getSources: async () => [],
+    },
+
+    nightcord: {
+        getInstallerPrefs: () => ({ defaultPlugins: true, autoUpdate: true }),
+        relaunch: NOOP_ASYNC,
+    },
+
     pluginHelpers: {} as any,
     csp: {} as any,
     tray: {
         setUpdateState: NOOP,
         onCheckUpdates: NOOP,
         onRepair: NOOP,
+    },
+
+    window: {
+        setBackgroundMaterial: NOOP_ASYNC,
+        setThumbarButtons: NOOP_ASYNC,
+        onThumbarClick: NOOP,
+        removeThumbarClickListener: NOOP,
     },
 };

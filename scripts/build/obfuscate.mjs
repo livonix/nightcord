@@ -65,6 +65,7 @@ function obfuscateFile(filePath) {
             { stdio: "inherit" }
         );
     } catch (e) {
+        // @ts-expect-error - e is unknown in JS file
         console.error(`[obfuscate] FAILED: ${filePath}\n${e.message}`);
         process.exit(1);
     }

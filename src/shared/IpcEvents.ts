@@ -123,3 +123,24 @@ export const enum IpcEvents {
     DEBUG_LAUNCH_WEBRTC_INTERNALS = "VesktopDebugLaunchWebrtcInternals",
     IPC_COMMAND = "VesktopIpcCommand",
 }
+
+export const enum UpdaterIpcEvents {
+    GET_DATA = "VCD_UPDATER_GET_DATA",
+    INSTALL = "VCD_UPDATER_INSTALL",
+    DOWNLOAD_PROGRESS = "VCD_UPDATER_DOWNLOAD_PROGRESS",
+    ERROR = "VCD_UPDATER_ERROR",
+    SNOOZE_UPDATE = "VCD_UPDATER_SNOOZE_UPDATE",
+    IGNORE_UPDATE = "VCD_UPDATER_IGNORE_UPDATE",
+}
+
+export const enum IpcCommands {
+    RPC_ACTIVITY = "rpc:activity",
+    RPC_INVITE = "rpc:invite",
+    RPC_DEEP_LINK = "rpc:link",
+
+    NAVIGATE_SETTINGS = "navigate:settings",
+
+    GET_LANGUAGES = "navigator.languages",
+
+    SCREEN_SHARE_PICKER = "screenshare:picker",
+}
