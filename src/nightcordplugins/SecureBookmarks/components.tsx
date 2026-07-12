@@ -1,18 +1,18 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BaseText } from "@components/BaseText";
 import { tPlugin as t } from "@api/pluginI18n";
+import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { classNameFactory } from "@utils/css";
 import { copyWithToast, openImageModal } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import type { RenderModalProps } from "@vencord/discord-types";
-import { Alerts, Button, Clickable, closeModal, Menu, Modal, ModalContent, ModalHeader, ModalFooter, ModalCloseButton, NavigationRouter, openModal, Parser, showToast, TextInput, Toasts, useEffect, useState, IconUtils, UserStore } from "@webpack/common";
 import { findComponentByCodeLazy } from "@webpack";
+import { Alerts, Button, Clickable, closeModal, IconUtils, Menu, Modal, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, NavigationRouter, openModal, Parser, showToast, TextInput, Toasts, useEffect, UserStore,useState } from "@webpack/common";
 import type { ReactNode } from "react";
 
 import { PASSWORD_KEYS, settings } from "./settings";

@@ -19,9 +19,10 @@
 import "./PluginModal.css";
 
 import { generateId } from "@api/Commands";
+import { t } from "@api/i18n";
+import { tPlugin } from "@api/pluginI18n";
 import { hasAnyVisibleSettings } from "@api/PluginManager";
 import { useSettings } from "@api/Settings";
-import { tPlugin } from "@api/pluginI18n";
 import { BaseText } from "@components/BaseText";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
@@ -41,7 +42,6 @@ import { Constructor } from "type-fest";
 import { PluginMeta } from "~plugins";
 
 import { OptionComponentMap } from "./components";
-import { t } from "@api/i18n";
 const cl = classNameFactory("vc-plugin-modal-");
 
 const AvatarStyles = findCssClassesLazy("moreUsers", "avatar", "clickableAvatar");
@@ -271,7 +271,7 @@ export function openResetDefaultsModal(reset: () => void) {
             onCancel={props.onClose}
         >
             <Paragraph>
-                {t("This will reset all plugins to their default enabled/disabled state (how they are when Nightcord is first installed).")} 
+                {t("This will reset all plugins to their default enabled/disabled state (how they are when Nightcord is first installed).")}
             </Paragraph>
             <div className={classes(Margins.top16, cl("warning"))}>
                 <WarningIcon color="var(--text-feedback-critical)" />

@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -64,8 +64,8 @@ export async function installWatchingTogetherIntercept(_?: any) {
                 ]
             }, (details: any, cb: any) => {
                 const headers = { ...details.requestHeaders };
-                headers["Referer"] = "https://www.youtube.com/";
-                headers["Origin"] = "https://www.youtube.com";
+                headers.Referer = "https://www.youtube.com/";
+                headers.Origin = "https://www.youtube.com";
                 cb({ requestHeaders: headers });
             });
         } catch (e) { console.error("YTD adblocker error:", e); }
@@ -232,7 +232,7 @@ export async function searchChannelVideos(_: any, handleOrId: string): Promise<s
             const h = json.header.pageHeaderRenderer.content?.pageHeaderViewModel;
             const banner = h?.banner?.imageBannerViewModel?.image?.sources;
             const avatar = h?.image?.decoratedAvatarViewModel?.avatar?.avatarViewModel?.image?.sources;
-            
+
             channelInfo = {
                 title: h?.title?.dynamicTextViewModel?.text?.content,
                 bio: h?.description?.descriptionPreviewViewModel?.description?.content,
@@ -245,7 +245,7 @@ export async function searchChannelVideos(_: any, handleOrId: string): Promise<s
             const h = json.header.c4TabbedHeaderRenderer;
             const banner = h.banner?.thumbnails;
             const avatar = h.avatar?.thumbnails;
-            
+
             channelInfo = {
                 title: h.title,
                 bio: json.metadata?.channelMetadataRenderer?.description,
@@ -263,7 +263,7 @@ export async function searchChannelVideos(_: any, handleOrId: string): Promise<s
             let vids = items
                 .filter((i: any) => i.richItemRenderer?.content)
                 .map((i: any) => {
-                    const content = i.richItemRenderer.content;
+                    const { content } = i.richItemRenderer;
 
                     if (content.lockupViewModel) {
                         const lvm = content.lockupViewModel;
@@ -298,7 +298,7 @@ export async function searchChannelVideos(_: any, handleOrId: string): Promise<s
                     return null;
                 })
                 .filter(Boolean);
-            
+
             if (vids.length === 0) {
                 const sections = tab.tabRenderer?.content?.sectionListRenderer?.contents ?? [];
                 for (const sec of sections) {
@@ -316,7 +316,7 @@ export async function searchChannelVideos(_: any, handleOrId: string): Promise<s
                     if (vids.length > 0) break;
                 }
             }
-            
+
             if (vids.length > 0) { videos = vids.slice(0, 50); break; }
         }
         return JSON.stringify({ videos, channels: [], channelInfo });

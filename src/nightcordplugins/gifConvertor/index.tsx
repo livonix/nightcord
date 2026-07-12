@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -31,7 +31,7 @@ type Stage = "idle" | "converting" | "preview" | "sending" | "error";
 
 interface PopoverPosition {
     bottom: number; // px from bottom of viewport
-    left: number;   // px from left of viewport (centre of button)
+    left: number; // px from left of viewport (centre of button)
 }
 
 // ─── Utilities ────────────────────────────────────────────────────────────────

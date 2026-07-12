@@ -5,12 +5,12 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { openNightcordModal } from "@nightcordplugins/compactMode/NightcordModal";
 import { Logger } from "@utils/Logger";
 import { classes } from "@utils/misc";
-import { find, filters, findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
-import { Clickable, Tooltip, useEffect, useState, Popout, useRef } from "@webpack/common";
+import { filters, find, findComponentByCodeLazy } from "@webpack";
+import { Clickable, Popout, Tooltip, useEffect, useRef,useState } from "@webpack/common";
 import type { ComponentType, JSX, MouseEventHandler, ReactNode } from "react";
-import { openNightcordModal } from "@nightcordplugins/compactMode/NightcordModal";
 
 const logger = new Logger("HeaderBarAPI");
 
@@ -226,7 +226,6 @@ export function _notifyStealthChange() {
 }
 export function addStealthListener(fn: () => void) { stealthListeners.add(fn); }
 export function removeStealthListener(fn: () => void) { stealthListeners.delete(fn); }
-
 
 // ══════════════════════════════════════════════════════════════════
 // COMPACT MODE

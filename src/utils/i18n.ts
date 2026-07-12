@@ -1,3 +1,9 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 export type Locale = "en" | "de" | "fr" | "es" | "it" | "pt" | "pl";
 export type TranslationMap = Record<string, Partial<Record<Locale, string>>>;
 
@@ -46,5 +52,5 @@ export function t(translations: TranslationMap, key: string, locale?: Locale): s
     const map = translations[key];
     if (!map) return key;
     const lang = locale ?? _cachedLocale;
-    return map[lang] ?? map["en"] ?? key;
+    return map[lang] ?? map.en ?? key;
 }

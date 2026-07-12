@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { getPublicPluginConfig, saveOwnPluginConfig } from "./PluginSync";
 import { beginDiscordOAuth, getStoredToken, storeToken } from "./OAuth2";
+import { getPublicPluginConfig, saveOwnPluginConfig } from "./PluginSync";
 
 export type BadgeSource = "vencord" | "equicord" | "nightcord" | "globalbadges" | "illegalcord";
 
@@ -73,7 +73,7 @@ async function fetchHiddenBadgeSources(userId: string) {
  */
 export async function loadOwnHiddenBadgeSources(userId: string) {
     myUserId = userId;
-    
+
     // 1. Charge la sauvegarde locale en premier pour éviter que ça clignote ou disparaisse sans compte
     try {
         const localData = localStorage.getItem("nightcord_hidden_badges");
@@ -94,7 +94,7 @@ export async function loadOwnHiddenBadgeSources(userId: string) {
         const { getOwnPluginConfig } = await import("./PluginSync");
         const result = await getOwnPluginConfig(PLUGIN_KEY, token);
         const hidden: BadgeSource[] = Array.isArray(result?.config?.settings?.hidden) ? result.config.settings.hidden : [];
-        
+
         // La version cloud a priorité si elle existe (et on met à jour le local)
         if (result?.config?.settings?.hidden !== undefined) {
             myHiddenSources = hidden;
@@ -114,7 +114,7 @@ export async function loadOwnHiddenBadgeSources(userId: string) {
  */
 export async function setOwnHiddenBadgeSources(hidden: BadgeSource[]) {
     myHiddenSources = hidden;
-    
+
     // Sauvegarde locale immédiate
     try {
         localStorage.setItem("nightcord_hidden_badges", JSON.stringify(hidden));

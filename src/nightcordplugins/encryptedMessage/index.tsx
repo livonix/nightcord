@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -8,7 +8,8 @@ import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { addContextMenuPatch, removeContextMenuPatch } from "@api/ContextMenu";
 import definePlugin from "@utils/types";
 import type { Message } from "@vencord/discord-types";
-import { Menu, Parser, React, Toasts, useEffect, useState, MessageStore, SelectedChannelStore } from "@webpack/common";
+import { Menu, MessageStore, Parser, React, SelectedChannelStore,Toasts, useEffect, useState } from "@webpack/common";
+
 import { t } from "../autoTranslateNightcord";
 
 const MARKER = "\u200B\u200C\u200D";

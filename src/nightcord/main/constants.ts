@@ -8,8 +8,8 @@ import { app } from "electron";
 import { existsSync, mkdirSync } from "fs";
 import { dirname, join } from "path";
 
-import { CommandLine } from "./cli";
 import { domain } from "../../../DOMAIN.json";
+import { CommandLine } from "./cli";
 
 const NightcordDir = dirname(process.execPath);
 
@@ -63,4 +63,3 @@ export const IS_FLATPAK = process.env.FLATPAK_ID !== undefined;
 export const isWayland =
     process.platform === "linux" && (process.env.XDG_SESSION_TYPE === "wayland" || !!process.env.WAYLAND_DISPLAY);
 export const isLinux = process.platform === "linux";
-

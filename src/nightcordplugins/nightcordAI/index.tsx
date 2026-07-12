@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,23 +7,22 @@
 import "./styles.css";
 
 import { findGroupChildrenByChildId } from "@api/ContextMenu";
+import { t } from "@api/i18n";
+import { t as tUI } from "@api/i18n";
 import { DataStore } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
 import { LinkButton } from "@components/Button";
 import { Card } from "@components/Card";
 import { Heading } from "@components/Heading";
-import { Margins } from "@utils/margins";
 import { Paragraph } from "@components/Paragraph";
 import { showApiKeyWarning } from "@utils/apiKeyWarning";
+import { Margins } from "@utils/margins";
 import { ModalCloseButton,ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { ChannelStore, FluxDispatcher, IconUtils, Menu,React, ReactDOM, RelationshipStore, RestAPI, useEffect, useRef, UserStore, useState } from "@webpack/common";
-import { t } from "@api/i18n";
+import { ChannelStore, FluxDispatcher, IconUtils, Menu,React, ReactDOM, RelationshipStore, useEffect, useRef, UserStore, useState } from "@webpack/common";
 
 import { getGroqKey, groqChat,setGroqKey } from "./groqManager";
-import { t as tUI } from "@api/i18n";
-
 
 // ── Settings ───────────────────────────────────────────────────────────────────
 

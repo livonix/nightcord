@@ -1,4 +1,8 @@
-
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
 
 import "./styles.css";
 import "./FIGMAUI/style.css";
@@ -17,7 +21,7 @@ import { useAwaiter } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
 import { chooseFile } from "@utils/web";
 import { CloudUploadPlatform } from "@vencord/discord-types/enums";
-import { Button, CloudUploader, Constants, FluxDispatcher, Forms, lodash, Menu, MessageActions, Modal, openModal, PendingReplyStore, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Toasts, useEffect, useState, useRef } from "@webpack/common";
+import { Button, CloudUploader, Constants, FluxDispatcher, Forms, lodash, Menu, MessageActions, Modal, openModal, PendingReplyStore, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Toasts, useEffect, useState } from "@webpack/common";
 import { ComponentType } from "react";
 
 import { VoiceRecorderDesktop } from "./components/DesktopRecorder";
@@ -239,7 +243,7 @@ function VoiceMessageModal({ modalProps }: { modalProps: any; }) {
                 const target = e.target as HTMLElement | null;
                 if (!target) return;
                 if (!target.closest || !document.body.querySelector) return;
-                const modalRoot = target.closest('.vc-vmsg-figma-ui') || target.closest('.vc-vmsg-figma-ui-content');
+                const modalRoot = target.closest(".vc-vmsg-figma-ui") || target.closest(".vc-vmsg-figma-ui-content");
                 if (!modalRoot) return;
                 const anchor = target.closest('a[href^="blob:"]') as HTMLAnchorElement | null;
                 if (anchor) {
@@ -248,12 +252,12 @@ function VoiceMessageModal({ modalProps }: { modalProps: any; }) {
                     downloadBlob();
                 }
             } catch (err) {
-                
+
             }
         };
 
-        document.addEventListener('click', handler, true);
-        return () => document.removeEventListener('click', handler, true);
+        document.addEventListener("click", handler, true);
+        return () => document.removeEventListener("click", handler, true);
     }, [blob]);
 
     return (
@@ -272,7 +276,7 @@ function VoiceMessageModal({ modalProps }: { modalProps: any; }) {
                 disabled: !blob
             }]}
         >
-            <div className={cl("figma-ui")}> 
+            <div className={cl("figma-ui")}>
                 <div className={cl("figma-ui-content")}>
                     <div className={cl("buttons")}>
                         <VoiceRecorder
@@ -301,7 +305,7 @@ function VoiceMessageModal({ modalProps }: { modalProps: any; }) {
                 ? <Paragraph className={cl("error")}>Failed to parse selected audio file: {metaError.message}</Paragraph>
                 : (
                     <>
-                        <div className={cl("preview-container")}> 
+                        <div className={cl("preview-container")}>
                                     <VoicePreview
                                         src={blobUrl}
                                         waveform={meta.waveform}
@@ -310,7 +314,7 @@ function VoiceMessageModal({ modalProps }: { modalProps: any; }) {
                                     />
                                 </div>
                         {blob && (
-                            <div className={cl("send-row")}> 
+                            <div className={cl("send-row")}>
                                 <Button
                                     onClick={() => {
                                         try {

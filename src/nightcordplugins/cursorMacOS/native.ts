@@ -1,17 +1,17 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2024 Vendicated and contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { execSync } from "child_process";
-import * as path from "path";
 import * as fs from "fs";
+import * as path from "path";
 
 // Mapping: style value → folder path segments inside mac/mac/
 const STYLE_FOLDER: Record<string, [string, string]> = {
-    modern_shadow:    ["1. Sierra and newer",      "2. With Shadow"],
-    modern_no_shadow: ["1. Sierra and newer",      "1. No Shadow"],
+    modern_shadow:    ["1. Sierra and newer", "2. With Shadow"],
+    modern_no_shadow: ["1. Sierra and newer", "1. No Shadow"],
     classic_shadow:   ["2. El Capitan and before", "2. With Shadow"],
     classic_no_shadow:["2. El Capitan and before", "1. No Shadow"],
 };
@@ -26,8 +26,8 @@ const SIZE_FOLDER: Record<string, string> = {
 const CURSOR_MAP: Record<string, string> = {
     Arrow:           "Normal",
     Hand:            "Link",
-    AppStarting:     "Link",       // closest match — "working in background"
-    Wait:            "Pan",        // spinning wheel closest to Pan
+    AppStarting:     "Link", // closest match — "working in background"
+    Wait:            "Pan", // spinning wheel closest to Pan
     IBeam:           "Text",
     SizeAll:         "Move",
     SizeNESW:        "Diagonal Resize 1",
@@ -85,7 +85,7 @@ export async function applyCursors(event: any, style: string, size: string): Pro
         }
 
         // Set cursor scheme name
-        regLines.push(`Set-ItemProperty -Path "HKCU:\\Control Panel\\Cursors" -Name "" -Value "macOS"`);
+        regLines.push("Set-ItemProperty -Path \"HKCU:\\Control Panel\\Cursors\" -Name \"\" -Value \"macOS\"");
 
         // Broadcast WM_SETTINGCHANGE so Windows refreshes cursors immediately without reboot
         regLines.push(`
@@ -117,7 +117,7 @@ export async function restoreCursors(_event: any): Promise<{ ok: boolean; error?
         const clearLines = regNames.map(name =>
             `Set-ItemProperty -Path "HKCU:\\Control Panel\\Cursors" -Name "${name}" -Value ""`
         );
-        clearLines.push(`Set-ItemProperty -Path "HKCU:\\Control Panel\\Cursors" -Name "" -Value ""`);
+        clearLines.push("Set-ItemProperty -Path \"HKCU:\\Control Panel\\Cursors\" -Name \"\" -Value \"\"");
         clearLines.push(`
 $signature = @'
 [DllImport("user32.dll", SetLastError=true)]

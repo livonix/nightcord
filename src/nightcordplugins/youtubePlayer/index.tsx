@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,12 +7,12 @@
 import "./styles.css";
 
 import { HeaderBarButton } from "@api/HeaderBar";
+import { tPlugin as t } from "@api/pluginI18n";
+import { definePluginSettings } from "@api/Settings";
 import { EquicordDevs } from "@utils/constants";
 import { ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { definePluginSettings } from "@api/Settings";
 import definePlugin, { IconComponent, OptionType, PluginNative } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
-import { ApplicationAssetUtils, React, ReactDOM, createRoot, useEffect, useRef, useState, FluxDispatcher } from "@webpack/common";
+import { ApplicationAssetUtils, FluxDispatcher,React, ReactDOM, useEffect, useState } from "@webpack/common";
 
 const Native = VencordNative.pluginHelpers.YoutubeInDiscord as PluginNative<typeof import("./native")>;
 
@@ -117,10 +117,10 @@ function updateIframePosition() {
         ytContainer.style.width = width + "px";
         ytContainer.style.height = height + "px";
         ytContainer.style.overflow = "hidden";
-        
+
         // Let clicks pass to the iframe ONLY when fullscreen.
         ytContainer.style.pointerEvents = iframeMode === "fullscreen" ? "auto" : "none";
-        
+
         ytContainer.style.zIndex = iframeMode === "fullscreen" ? "9999990" : "10000001";
         ytContainer.style.borderRadius = iframeMode === "island" ? "14px" : "0";
     } else {
@@ -156,7 +156,7 @@ function initYoutubePlayer() {
 
     updateIframePosition();
 
-    window.addEventListener("message", (event) => {
+    window.addEventListener("message", event => {
         const allowedOrigins = ["https://www.youtube-nocookie.com", "https://www.youtube.com", "https://www.googlevideo.com"];
         if (!allowedOrigins.includes(event.origin)) return;
         try {
@@ -224,7 +224,7 @@ function loadVideo(video: YtVideo) {
     if (iframe) {
         // Native YouTube UI, with fs=1 for fullscreen button
         iframe.src = `https://www.youtube-nocookie.com/embed/${video.id}?enablejsapi=1&autoplay=1&controls=1&disablekb=0&fs=1&modestbranding=1&rel=0&iv_load_policy=3`;
-        
+
         let attempts = 0;
         const listenInterval = setInterval(() => {
             if (attempts++ > 10 || playerState.isPlaying) clearInterval(listenInterval);
@@ -386,7 +386,7 @@ function YoutubeHomeModal({ onClose, onPlayVideo }: {
                     ))}
                 </div>
             )}
-            
+
             {channelInfo && (
                 <div className="ytd-channel-header">
                     {channelInfo.bannerUrl && (
@@ -470,7 +470,7 @@ function FullscreenOverlay({ onClose }: { onClose: () => void }) {
         if (ytContainer) {
             ytContainer.style.transition = "all 0.5s cubic-bezier(0.32, 0.72, 0, 1)";
         }
-        
+
         let rafId: number;
         const sync = () => {
             if (iframeMode === "fullscreen") {
@@ -516,7 +516,7 @@ function YoutubeModal({ onClose, startFullscreen }: { onClose: () => void; start
             playerState.isModalOpen = false;
             playerState.isFullscreen = false;
             playerState.notify(); // Crucial to update Dynamic Island
-        }
+        };
     }, [startFullscreen]);
 
     function handlePlayVideo(video: YtVideo) {
@@ -538,7 +538,6 @@ function YoutubeModal({ onClose, startFullscreen }: { onClose: () => void; start
         </div>
     );
 }
-
 
 // ─── Rich Presence ────────────────────────────────────────────────────────────
 

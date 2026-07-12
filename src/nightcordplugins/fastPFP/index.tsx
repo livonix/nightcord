@@ -1,15 +1,20 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { tPlugin as t } from "@api/pluginI18n";
+import { getMediaUrl } from "@plugins/fileUpload/utils/getMediaUrl";
 import definePlugin from "@utils/types";
 import { Menu, RestAPI, Toasts } from "@webpack/common";
-import { tPlugin as t } from "@api/pluginI18n";
-
-import { getMediaUrl } from "@plugins/fileUpload/utils/getMediaUrl";
 
 const uploadImageToProfile = async (url: string, type: "avatar" | "banner") => {
     try {
         const response = await fetch(url);
         const blob = await response.blob();
-        
+
         // Convert Blob to Base64
         const reader = new FileReader();
         reader.readAsDataURL(blob);
@@ -29,7 +34,7 @@ const uploadImageToProfile = async (url: string, type: "avatar" | "banner") => {
             }
         };
     } catch (err) {
-        Toasts.show(Toasts.create(t(`Failed to download image.`), Toasts.Type.FAILURE));
+        Toasts.show(Toasts.create(t("Failed to download image."), Toasts.Type.FAILURE));
         console.error("FastPFP Error:", err);
     }
 };

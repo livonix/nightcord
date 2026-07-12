@@ -6,6 +6,7 @@
 
 import "./styles.css";
 
+import { t } from "@api/i18n";
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { Divider } from "@components/Divider";
@@ -21,7 +22,6 @@ import { UpdateLogger } from "@utils/updater";
 import { Alerts, React, Toasts } from "@webpack/common";
 
 import gitHash from "~git-hash";
-import { t } from "@api/i18n";
 
 import {
     ChangelogEntry,

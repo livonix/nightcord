@@ -1,6 +1,6 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -19,9 +19,10 @@ import { isEquicordGuild, isEquicordSupport } from "@utils/misc";
 import { Message } from "@vencord/discord-types";
 import { showToast, Tooltip, useMemo } from "@webpack/common";
 import { JSX } from "react";
-import {domain} from "../../../DOMAIN.json";
 
 import plugins, { ExcludedPlugins } from "~plugins";
+
+import { domain } from "../../../DOMAIN.json";
 
 export function ChatPluginCard({ url, description }: { url: string, description: string; }) {
     const pluginNameFromUrl = decodeURIComponent(new URL(url).pathname.split("/")[2]);
@@ -207,4 +208,3 @@ export const PluginCards = ErrorBoundary.wrap(function PluginCards({ message }: 
         </div>
     );
 }, { noop: true });
-

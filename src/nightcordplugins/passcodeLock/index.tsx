@@ -1,6 +1,6 @@
 /*
- * Nightcord, a Discord client mod
- * Ported from PasscodeLock by arg0NNY (https://github.com/okdevme/DiscordPlugins)
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -8,24 +8,22 @@ import "./style.css";
 
 import * as DataStore from "@api/DataStore";
 import { HeaderBarButton } from "@api/HeaderBar";
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import definePlugin, { OptionType } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
 import { findByPropsLazy } from "@webpack";
 import {
     createRoot,
-    FluxDispatcher,
+    IconUtils,
     MediaEngineStore,
     React,
     showToast,
     Toasts,
     useEffect,
     useRef,
+    UserStore,
     useState,
-    VoiceActions,
-    IconUtils,
-    UserStore
-} from "@webpack/common";
+    VoiceActions } from "@webpack/common";
 
 function getUserAssets() {
     const user = UserStore.getCurrentUser();
@@ -538,18 +536,18 @@ function PasscodeLocker({ type, button, onDone }: LockerProps) {
                         spellCheck={false}
                         autoFocus
                         defaultValue=""
-                        onChange={(e) => {
+                        onChange={e => {
                             const val = e.target.value;
                             if (len !== -1 && val.length >= len) {
                                 accept(val);
                             }
                         }}
-                        onKeyDown={(e) => {
+                        onKeyDown={e => {
                             e.stopPropagation();
                             if (e.key === "Enter") accept(e.currentTarget.value);
                         }}
-                        onKeyUp={(e) => e.stopPropagation()}
-                        onKeyPress={(e) => e.stopPropagation()}
+                        onKeyUp={e => e.stopPropagation()}
+                        onKeyPress={e => e.stopPropagation()}
                         className={delay ? "vcl-err" : ""}
                         disabled={delay}
                     />
@@ -803,7 +801,7 @@ export default definePlugin({
         window.addEventListener("mousemove", (this as any)._activityListener);
         window.addEventListener("keydown", (this as any)._activityListener);
         window.addEventListener("mousedown", (this as any)._activityListener);
-        
+
         resetAutolock();
 
         // Only auto-lock on startup if a passcode has actually been configured.

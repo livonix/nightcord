@@ -17,7 +17,6 @@
 */
 
 import "./fixDiscordBadgePadding.css";
-import {domain} from "../../../../DOMAIN.json"
 
 import { _getBadges, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
 import { loadOwnHiddenBadgeSources } from "@api/BadgeVisibility";
@@ -31,7 +30,8 @@ import { ContextMenuApi, FluxDispatcher, Menu, Toasts, UserStore } from "@webpac
 
 import Plugins, { PluginMeta } from "~plugins";
 
-import { EquicordDonorModal, EquicordTranslatorModal, VencordDonorModal, GenericBadgeModal } from "./modals";
+import { domain } from "../../../../DOMAIN.json";
+import { EquicordTranslatorModal, GenericBadgeModal } from "./modals";
 
 const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 const EQUICORD_CONTRIBUTOR_BADGE = "https://equicord.org/assets/favicon.png";
@@ -347,5 +347,3 @@ export default definePlugin({
         } satisfies ProfileBadge));
     }
 });
-
-

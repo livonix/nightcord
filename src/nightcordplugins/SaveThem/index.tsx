@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,6 +7,7 @@
 import "./styles.css";
 
 import { DataStore } from "@api/index";
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
@@ -15,8 +16,7 @@ import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import type { Channel, User } from "@vencord/discord-types";
 import { findByPropsLazy, findStoreLazy } from "@webpack";
-import { Alerts, Button, Clickable, FluxDispatcher, IconUtils, Menu, openModal, SettingsRouter, showToast, TextInput, Toasts, useEffect, useState } from "@webpack/common";
-import { tPlugin as t } from "@api/pluginI18n";
+import { Alerts, Button, IconUtils, Menu, showToast, TextInput, Toasts, useEffect, useState } from "@webpack/common";
 
 const logger = new Logger("SaveThem");
 
@@ -83,7 +83,7 @@ async function handleSaveUser(user: User) {
 
             try {
                 const stored: any = await DataStore.get("SaveThem_users") ?? [];
-                
+
                 // PFP base64 encoding to keep it persistent offline
                 const avatarUrl = IconUtils.getUserAvatarURL(user, true, 128) || IconUtils.getDefaultAvatarURL(user.id);
                 const avatarDataUrl = await imageUrlToBase64(avatarUrl);

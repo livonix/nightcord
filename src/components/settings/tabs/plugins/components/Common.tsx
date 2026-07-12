@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { tPlugin } from "@api/pluginI18n";
 import { BaseText } from "@components/BaseText";
 import { Link } from "@components/Link";
 import { classNameFactory } from "@utils/css";
@@ -12,7 +13,6 @@ import { wordsFromCamel, wordsToTitle } from "@utils/text";
 import { DefinedSettings, PluginOptionBase } from "@utils/types";
 import { PropsWithChildren } from "react";
 import React from "react";
-import { tPlugin } from "@api/pluginI18n";
 
 export const cl = classNameFactory("vc-plugins-setting-");
 

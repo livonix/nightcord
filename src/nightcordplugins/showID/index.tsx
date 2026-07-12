@@ -1,14 +1,14 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2024 contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
 import definePlugin from "@utils/types";
-import { React, useState } from "@webpack/common";
 import { findComponentByCodeLazy } from "@webpack";
-import { BaseText } from "@components/BaseText";
+import { React, useState } from "@webpack/common";
 
 const Section = findComponentByCodeLazy("headingVariant:", '"section"', "headingIcon:");
 
@@ -68,8 +68,8 @@ function CopyButton({ text }: { text: string; }) {
                 lineHeight: 0,
                 verticalAlign: "middle",
             }}
-            onMouseEnter={(e) => !copied && (e.currentTarget.style.color = "var(--text-normal)")}
-            onMouseLeave={(e) => !copied && (e.currentTarget.style.color = "var(--text-muted)")}
+            onMouseEnter={e => !copied && (e.currentTarget.style.color = "var(--text-normal)")}
+            onMouseLeave={e => !copied && (e.currentTarget.style.color = "var(--text-muted)")}
         >
             {copied ? <CheckIcon /> : <CopyIcon />}
         </button>

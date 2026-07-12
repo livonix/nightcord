@@ -1,7 +1,7 @@
 /*
- * Nightcord – CursorMacOS plugin
- * Replaces Windows SYSTEM cursors with authentic macOS .cur/.ani files.
- * Default Windows cursors are restored when the plugin is disabled.
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { definePluginSettings, SettingsStore } from "@api/Settings";

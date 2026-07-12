@@ -8,8 +8,8 @@ import { NativeSettings } from "@main/settings";
 import { IpcEvents } from "@shared/IpcEvents";
 import { dialog, ipcMain, IpcMainInvokeEvent } from "electron";
 
-import { CspPolicies, ImageAndCssSrc } from ".";
 import { validateSender } from "../ipcMain";
+import { CspPolicies, ImageAndCssSrc } from ".";
 
 export type CspRequestResult = "invalid" | "cancelled" | "unchecked" | "ok" | "conflict";
 

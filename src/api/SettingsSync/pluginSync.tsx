@@ -6,11 +6,11 @@
 
 import * as DataStore from "@api/DataStore";
 import { showNotification } from "@api/Notifications";
-import { Settings } from "@api/Settings";
 import { Logger } from "@utils/Logger";
-import { getCloudUrl } from "./cloudSetup";
 import { openModal } from "@utils/modal";
 import { OAuth2AuthorizeModal } from "@webpack/common";
+
+import { getCloudUrl } from "./cloudSetup";
 
 const logger = new Logger("SettingsSync:PluginSync", "#39b7e0");
 
@@ -100,7 +100,7 @@ export async function authorizePluginSync(): Promise<boolean> {
             throw new Error("Missing client_id in OAuth URL");
         }
 
-        return new Promise((resolve) => {
+        return new Promise(resolve => {
             openModal((props: any) => <OAuth2AuthorizeModal
                 {...props}
                 scopes={scopes}
@@ -120,7 +120,7 @@ export async function authorizePluginSync(): Promise<boolean> {
                             headers: { Accept: "application/json" }
                         });
                         const data = await res.json();
-                        
+
                         if (data.token) {
                             logger.info("Authorized plugin sync");
                             await setPluginSyncToken(data.token);
@@ -157,4 +157,3 @@ export async function authorizePluginSync(): Promise<boolean> {
         return false;
     }
 }
-

@@ -100,7 +100,7 @@ export default {
     },
 
     nightcord: {
-        getInstallerPrefs: () => sendSync<{defaultPlugins: boolean, autoUpdate: boolean}>(IpcEvents.GET_INSTALLER_PREFS),
+        getInstallerPrefs: () => sendSync<{ defaultPlugins: boolean, autoUpdate: boolean }>(IpcEvents.GET_INSTALLER_PREFS),
         relaunch: () => invoke<void>(IpcEvents.RELAUNCH_APP),
     },
 
@@ -120,4 +120,3 @@ export default {
     },
 
 };
-

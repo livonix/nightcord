@@ -1,6 +1,6 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2024 Vendicated and contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -368,7 +368,7 @@ export default definePlugin({
             // plus tard avec "Cannot use 'in' operator to search for 'flags' in <id>".
             // On filtre TOUJOURS, meme quand il n'y a pas de messages supprimes a reinjecter
             // (c'est le cas le plus frequent, donc le bug le plus frequent).
-            const extra = (messages as any).extra;
+            const { extra } = (messages as any);
             let w = 0;
             for (let i = 0; i < messages.length; i++) {
                 if (isMessageObject(messages[i])) messages[w++] = messages[i];

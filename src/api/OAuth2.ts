@@ -1,3 +1,9 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 export const API_BASE = "https://api.nightcord.st";
 
 import * as DataStore from "./DataStore";
@@ -7,12 +13,12 @@ export const OAUTH_TOKEN_KEY = "nightcord_oauth_token";
 export async function beginDiscordOAuth(state?: string) {
     const url = new URL(`${API_BASE}/api/oauth2/signing`);
     if (state) {
-        url.searchParams.set('state', state);
+        url.searchParams.set("state", state);
     }
 
     const response = await fetch(url.toString());
     if (!response.ok) {
-        throw new Error('Failed to create OAuth URL');
+        throw new Error("Failed to create OAuth URL");
     }
 
     return response.json() as Promise<{

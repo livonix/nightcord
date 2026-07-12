@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,7 +7,7 @@
 import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
-import { Button, GuildChannelStore, GuildMemberStore, GuildRoleStore, GuildStore, Menu, React, Select, TextArea, SelectedGuildStore, UserStore, FluxDispatcher, VoiceStateStore, showToast } from "@webpack/common";
+import { Button, FluxDispatcher, GuildChannelStore, GuildMemberStore, GuildRoleStore, GuildStore, Menu, React, Select, SelectedGuildStore, showToast,TextArea, UserStore, VoiceStateStore } from "@webpack/common";
 
 let isEnabled = false;
 
@@ -47,7 +47,6 @@ function notifyMemberListChange() {
         FluxDispatcher?.dispatch({ type: "GUILD_MEMBER_LIST_UPDATE", ops: [], id: "everyone", guildId });
     } catch { }
 }
-
 
 function hideMessageInDOM(messageId: string) {
     // Only ever hide the single targeted message row (its <li>). We used to also

@@ -1,16 +1,15 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { BackupAndRestoreTab, ChangelogTab, LanguageTab,PluginsTab, SyncTab, ThemesTab, UpdaterTab, VencordTab } from "@components/settings/tabs";
+import { CreateThemeTab } from "@components/settings/tabs/createTheme/CreateThemeTab";
+import IconsTab from "@nightcordplugins/iconViewer/components/IconsTab";
 import { ModalContent, ModalProps, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import { React, useState } from "@webpack/common";
-
-import { ThemesTab, ChangelogTab, PluginsTab, BackupAndRestoreTab, UpdaterTab, VencordTab, SyncTab, LanguageTab } from "@components/settings/tabs";
-import IconsTab from "@nightcordplugins/iconViewer/components/IconsTab";
-import { CreateThemeTab } from "@components/settings/tabs/createTheme/CreateThemeTab";
 
 // ── Tab definitions ──────────────────────────────────────────────────────────
 

@@ -1,9 +1,15 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { API_BASE } from "./OAuth2";
 
 export async function getOwnPluginConfig(pluginName: string, token: string) {
     const response = await fetch(`${API_BASE}/api/sync/${encodeURIComponent(pluginName)}?token=${encodeURIComponent(token)}`);
     if (!response.ok) {
-        throw new Error('Failed to load plugin config');
+        throw new Error("Failed to load plugin config");
     }
     return response.json();
 }
@@ -11,11 +17,11 @@ export async function getOwnPluginConfig(pluginName: string, token: string) {
 export async function saveOwnPluginConfig(pluginName: string, token: string, settings: Record<string, unknown>) {
     // private must be sent both at top-level and inside settings so the server
     // always treats this config as public (visible via /public endpoint).
-    const isPrivate = settings.private === true ? true : false;
+    const isPrivate = settings.private === true;
     const response = await fetch(`${API_BASE}/api/sync/${encodeURIComponent(pluginName)}`, {
-        method: 'PUT',
+        method: "PUT",
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             token,
@@ -25,7 +31,7 @@ export async function saveOwnPluginConfig(pluginName: string, token: string, set
     });
 
     if (!response.ok) {
-        throw new Error('Failed to save plugin config');
+        throw new Error("Failed to save plugin config");
     }
 
     return response.json();

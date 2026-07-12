@@ -161,7 +161,7 @@ export default definePlugin({
         const cleanup = () => {
             FluxDispatcher.unsubscribe("GUILD_MEMBERS_CHUNK_BATCH", callback);
         };
-        
+
         // Safety timeout to prevent memory leak if chunks are lost or count mismatch
         setTimeout(cleanup, 10000);
 

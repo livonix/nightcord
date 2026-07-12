@@ -4,6 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@api/i18n";
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { Divider } from "@components/Divider";
@@ -18,8 +19,8 @@ import { relaunch } from "@utils/native";
 import { changes, checkForUpdates, rebuild, update, UpdateLogger } from "@utils/updater";
 import { React, useState } from "@webpack/common";
 import { Toasts } from "@webpack/common";
-import { t } from "@api/i18n";
-import {domain} from "../../../../../DOMAIN.json";
+
+import { domain } from "../../../../../DOMAIN.json";
 
 // Version locale depuis package.json (injectée au build)
 declare const VERSION: string;

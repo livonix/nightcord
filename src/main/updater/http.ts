@@ -11,12 +11,13 @@ import { exec } from "child_process";
 import { app,ipcMain } from "electron";
 import { rmSync,writeFileSync } from "original-fs";
 import { join } from "path";
-import {domain} from "../../../DOMAIN.json";
+
+import { domain } from "../../../DOMAIN.json";
 import { serializeErrors } from "./common";
 
-const GITEA_BASE     = `https://source.${domain}`;
-const API_BASE      = `${GITEA_BASE}/api/v1/repos/nightcord/nightcord`;
-const REPO_URL      = `${GITEA_BASE}/nightcord/nightcord`;
+const GITEA_BASE = `https://source.${domain}`;
+const API_BASE = `${GITEA_BASE}/api/v1/repos/nightcord/nightcord`;
+const REPO_URL = `${GITEA_BASE}/nightcord/nightcord`;
 declare const VERSION: string;
 const CURRENT_VERSION = `v${VERSION}`;
 const ZIP_FILE = "nightcord-dist.zip";

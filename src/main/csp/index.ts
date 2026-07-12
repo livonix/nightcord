@@ -1,3 +1,9 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { NativeSettings } from "@main/settings";
 import { session } from "electron";
 
@@ -166,4 +172,3 @@ export function initCsp() {
     });
 
 }
-

@@ -10,16 +10,16 @@ import "./settings";
 
 import { debounce } from "@shared/debounce";
 import { IpcEvents } from "@shared/IpcEvents";
-import { app, BrowserWindow, desktopCapturer, dialog, ipcMain, nativeTheme, screen, shell, systemPreferences } from "electron";
+import { app, BrowserWindow, desktopCapturer, dialog, ipcMain, nativeTheme, shell, systemPreferences } from "electron";
 import monacoHtml from "file://monacoWin.html?minify&base64";
 import { FSWatcher, mkdirSync, readFileSync, watch, writeFileSync } from "fs";
 import { open, readdir, readFile, unlink } from "fs/promises";
 import { join, normalize } from "path";
-import {domain} from "../../DOMAIN.json";
 
+import { domain } from "../../DOMAIN.json";
+import { makeLinksOpenExternally } from "../nightcord/main/utils/makeLinksOpenExternally";
 import { registerCspIpcHandlers } from "./csp/manager";
 import { ALLOWED_PROTOCOLS, DATA_DIR, QUICK_CSS_PATH, SETTINGS_DIR, THEMES_DIR } from "./utils/constants";
-import { makeLinksOpenExternally } from "../nightcord/main/utils/makeLinksOpenExternally";
 
 const RENDERER_CSS_PATH = join(__dirname, "renderer.css");
 const USERPLUGINS_DIR = join(DATA_DIR, "userplugins");
@@ -42,7 +42,7 @@ export function validateSender(event: any): boolean {
     if (!event || !event.sender) return false;
     const frame = event.senderFrame;
     if (!frame) return false;
-    const url = frame.url;
+    const { url } = frame;
     if (!url) return false;
 
     if (url.startsWith("file://")) {
@@ -83,7 +83,7 @@ function getThemeData(fileName: string) {
     return readFile(safePath, "utf-8");
 }
 
-ipcMain.handle(IpcEvents.OPEN_QUICKCSS, (event) => {
+ipcMain.handle(IpcEvents.OPEN_QUICKCSS, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return shell.openPath(QUICK_CSS_PATH);
 });
@@ -101,7 +101,7 @@ ipcMain.handle(IpcEvents.OPEN_EXTERNAL, (event, url) => {
     shell.openExternal(url);
 });
 
-ipcMain.handle(IpcEvents.GET_QUICK_CSS, (event) => {
+ipcMain.handle(IpcEvents.GET_QUICK_CSS, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return readCss();
 });
@@ -110,11 +110,11 @@ ipcMain.handle(IpcEvents.SET_QUICK_CSS, (event, css) => {
     return writeFileSync(QUICK_CSS_PATH, css);
 });
 
-ipcMain.handle(IpcEvents.GET_THEMES_DIR, (event) => {
+ipcMain.handle(IpcEvents.GET_THEMES_DIR, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return THEMES_DIR;
 });
-ipcMain.handle(IpcEvents.GET_THEMES_LIST, (event) => {
+ipcMain.handle(IpcEvents.GET_THEMES_LIST, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return listThemes();
 });
@@ -128,7 +128,7 @@ ipcMain.handle(IpcEvents.DELETE_THEME, (event, fileName) => {
     if (!safePath) return Promise.reject(`Unsafe path ${fileName}`);
     return unlink(safePath);
 });
-ipcMain.handle(IpcEvents.GET_THEME_SYSTEM_VALUES, (event) => {
+ipcMain.handle(IpcEvents.GET_THEME_SYSTEM_VALUES, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     let accentColor = systemPreferences.getAccentColor?.() ?? "";
 
@@ -141,16 +141,16 @@ ipcMain.handle(IpcEvents.GET_THEME_SYSTEM_VALUES, (event) => {
     };
 });
 
-ipcMain.handle(IpcEvents.OPEN_THEMES_FOLDER, (event) => {
+ipcMain.handle(IpcEvents.OPEN_THEMES_FOLDER, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return shell.openPath(THEMES_DIR);
 });
-ipcMain.handle(IpcEvents.OPEN_SETTINGS_FOLDER, (event) => {
+ipcMain.handle(IpcEvents.OPEN_SETTINGS_FOLDER, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return shell.openPath(SETTINGS_DIR);
 });
 
-ipcMain.handle(IpcEvents.INIT_FILE_WATCHERS, (event) => {
+ipcMain.handle(IpcEvents.INIT_FILE_WATCHERS, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     const { sender } = event;
     let quickCssWatcher: FSWatcher | undefined;
@@ -184,7 +184,7 @@ ipcMain.on(IpcEvents.GET_MONACO_THEME, e => {
     e.returnValue = nativeTheme.shouldUseDarkColors ? "vs-dark" : "vs-light";
 });
 
-ipcMain.handle(IpcEvents.GET_DESKTOP_SOURCES, async (event) => {
+ipcMain.handle(IpcEvents.GET_DESKTOP_SOURCES, async event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     try {
         const sources = await desktopCapturer.getSources({
@@ -199,7 +199,7 @@ ipcMain.handle(IpcEvents.GET_DESKTOP_SOURCES, async (event) => {
 
 let monacoWin: BrowserWindow | null = null;
 
-ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async (event) => {
+ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     if (monacoWin && !monacoWin.isDestroyed()) {
         monacoWin.show();
@@ -252,7 +252,7 @@ app.on("before-quit", async event => {
     }
 });
 
-ipcMain.handle(IpcEvents.GET_RENDERER_CSS, (event) => {
+ipcMain.handle(IpcEvents.GET_RENDERER_CSS, event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
     return readFile(RENDERER_CSS_PATH, "utf-8");
 });
@@ -346,7 +346,7 @@ if (IS_DISCORD_DESKTOP) {
     });
 }
 
-ipcMain.handle(IpcEvents.RELAUNCH_APP, async (event) => {
+ipcMain.handle(IpcEvents.RELAUNCH_APP, async event => {
     if (!validateSender(event)) throw new Error("Unauthorized IPC invocation");
 
     if (process.platform === "win32") {
@@ -396,8 +396,6 @@ ipcMain.handle(IpcEvents.NIGHTCORD_DOWNLOAD_AND_RUN, async (event, url: string) 
         });
     });
 
-
-
     const { response } = await dialog.showMessageBox({
         type: "info",
         buttons: ["Install update", "Cancel"],
@@ -417,4 +415,3 @@ ipcMain.handle(IpcEvents.NIGHTCORD_DOWNLOAD_AND_RUN, async (event, url: string) 
 
     return true;
 });
-

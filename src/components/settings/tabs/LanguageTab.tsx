@@ -1,10 +1,10 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2026 Nightcord contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { LANGUAGES, LANGUAGE_FLAGS, Language, t } from "@api/i18n";
+import { Language, LANGUAGE_FLAGS, LANGUAGES, t } from "@api/i18n";
 import { useSettings } from "@api/Settings";
 import { Divider } from "@components/Divider";
 import { Heading } from "@components/Heading";
@@ -48,7 +48,7 @@ const languageOptions = (Object.keys(LANGUAGES) as Language[]).map(lang => ({
 
 function FlagIcon({ lang }: { lang: Language; }) {
     if (!FLAG_ICONS[lang]) {
-        return <div style={{...FLAG_ICON_STYLE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px"}}>{LANGUAGE_FLAGS[lang]}</div>;
+        return <div style={{ ...FLAG_ICON_STYLE, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px" }}>{LANGUAGE_FLAGS[lang]}</div>;
     }
     return <img src={FLAG_ICONS[lang]} alt={lang} style={FLAG_ICON_STYLE} />;
 }

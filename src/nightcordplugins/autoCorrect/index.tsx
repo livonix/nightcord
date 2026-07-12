@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -10,6 +10,7 @@ import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import { showApiKeyWarning } from "@utils/apiKeyWarning";
 import definePlugin, { OptionType } from "@utils/types";
 import { React } from "@webpack/common";
+
 import plugins from "~plugins";
 
 import { getGroqKey,groqChat } from "../nightcordAI/groqManager";
@@ -156,7 +157,7 @@ const AutoCorrectChatBarButton: ChatBarButtonFactory = ({ type }) => {
             onClick={toggle}
             onContextMenu={e => {
                 e.preventDefault();
-                openPluginModal(plugins["AutoCorrect"] ?? plugins["autoCorrect"]);
+                openPluginModal(plugins.AutoCorrect ?? plugins.autoCorrect);
             }}
         >
             <AutoCorrectIcon enabled={enabled} />

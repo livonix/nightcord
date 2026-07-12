@@ -5,8 +5,8 @@
  */
 
 import { app, BrowserWindow, ipcMain } from "electron";
-import { join } from "path";
 import { autoUpdater, UpdateInfo } from "electron-updater";
+import { join } from "path";
 import { IpcEvents, UpdaterIpcEvents } from "shared/IpcEvents";
 import { STATIC_DIR } from "shared/paths";
 import { Millis } from "shared/utils/millis";

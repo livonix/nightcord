@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -11,7 +11,7 @@ import { definePluginSettings } from "@api/Settings";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { Forms, Menu, React, showToast, Toasts, GuildStore, UserStore, IconUtils } from "@webpack/common";
+import { Forms, GuildStore, IconUtils,Menu, React, showToast, Toasts, UserStore } from "@webpack/common";
 
 const { useState, useEffect, useMemo } = React;
 

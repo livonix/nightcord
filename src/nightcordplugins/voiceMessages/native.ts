@@ -1,6 +1,11 @@
-import { app } from "electron";
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { readFile, rm } from "fs/promises";
-import { basename, normalize, sep } from "path";
+import { basename, normalize } from "path";
 
 export async function readRecording(_: any, filePath: string) {
     filePath = normalize(filePath);

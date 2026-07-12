@@ -1,16 +1,16 @@
 ﻿/*
- * Nightcord, a Discord client mod
- * Copyright (c) 2026 contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import "./styles.css";
 
-import definePlugin from "@utils/types";
-import { React, ChannelStore, FluxDispatcher, UserStore, ReactDOM, createRoot } from "@webpack/common";
-import { findByPropsLazy } from "@webpack";
-import { sendMessage } from "@utils/discord";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { sendMessage } from "@utils/discord";
+import definePlugin from "@utils/types";
+import { findByPropsLazy } from "@webpack";
+import { createRoot, React, ReactDOM } from "@webpack/common";
 
 // ── Stores ─────────────────────────────────────────────────────────────────
 
@@ -50,17 +50,17 @@ function avatarUrl(userId: string, hash: string | null): string {
 
 function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
     const [messages, setMessages] = React.useState<any[]>([]);
-    
+
     const unread: number = React.useMemo(() => {
         try { return ReadStateStore.getUnreadCount(channelId) ?? 0; } catch { return 0; }
     }, [channelId]);
 
     React.useEffect(() => {
         let isMounted = true;
-        
+
         const loadMessages = async () => {
             let msgs = MessageStore?.getMessages(channelId);
-            
+
             if (!msgs || !msgs._array || msgs._array.length === 0) {
                 try {
                     await MessageActions?.fetchMessages({ channelId });
@@ -69,7 +69,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                     console.warn("[PreviewMessage] Failed to fetch messages", e);
                 }
             }
-            
+
             if (isMounted) {
                 let localMsgs = [];
                 if (msgs && msgs._array && msgs._array.length > 0) {
@@ -135,11 +135,11 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
 
                 {/* Reply Input */}
                 <div className="pm-reply">
-                    <input 
-                        type="text" 
-                        className="pm-reply-input" 
-                        placeholder={`Reply to ${name ?? "this user"}...`} 
-                        autoFocus 
+                    <input
+                        type="text"
+                        className="pm-reply-input"
+                        placeholder={`Reply to ${name ?? "this user"}...`}
+                        autoFocus
                         onKeyDown={async e => {
                             if (e.key === "Enter") {
                                 const val = e.currentTarget.value.trim();
@@ -155,7 +155,7 @@ function Tooltip({ channelId, rect }: { channelId: string; rect: DOMRect; }) {
                                     console.error("[PreviewMessage] Failed to reply", err);
                                 }
                             }
-                        }} 
+                        }}
                     />
                 </div>
             </div>

@@ -7,18 +7,17 @@
 import "./VencordTab.css";
 
 import { isCompactModeEnabled, isStealthModeEnabled, toggleCompactMode, toggleStealthMode } from "@api/HeaderBar";
+import { t } from "@api/i18n";
 import { openNotificationLogModal } from "@api/Notifications/notificationLog";
 import { plugins } from "@api/PluginManager";
 import { useSettings } from "@api/Settings";
-import { t } from "@api/i18n";
-
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { Divider } from "@components/Divider";
 import { Flex } from "@components/Flex";
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
-import { HeartIcon, GithubIcon, LogIcon, OwnerCrownIcon, PaintbrushIcon, PlanetIcon, RestartIcon } from "@components/Icons";
+import { GithubIcon, HeartIcon, OwnerCrownIcon, PaintbrushIcon, PlanetIcon, RestartIcon } from "@components/Icons";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
 import { openPluginModal, SettingsTab, wrapTab } from "@components/settings";
@@ -29,7 +28,7 @@ import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
 import { openModal } from "@utils/modal";
 import { relaunch } from "@utils/native";
-import { Avatar, OAuth2AuthorizeModal, React, Select, UserStore } from "@webpack/common";
+import { Avatar, React, Select, UserStore } from "@webpack/common";
 
 import { ContributeModal } from "../../../../nightcord/renderer/components/ContributeModal";
 import { openNotificationSettingsModal } from "./NotificationSettings";
@@ -64,7 +63,7 @@ function useDiscordUser(userId: string) {
                     ? `https://cdn.discordapp.com/avatars/${userId}/${u.avatar}.webp?size=128`
                     : `https://cdn.discordapp.com/embed/avatars/${Number(BigInt(userId) >> 22n) % 6}.png`
             }))
-            .catch(() => setUser({ name: userId, pfp: `https://cdn.discordapp.com/embed/avatars/0.png` }));
+            .catch(() => setUser({ name: userId, pfp: "https://cdn.discordapp.com/embed/avatars/0.png" }));
     }, [userId]);
     return user;
 }
@@ -75,7 +74,7 @@ function DevCard({ id, role }: { id: string; role: string; }) {
         <Card variant="primary" outline style={{ padding: "10px" }}>
             <Flex align={Flex.Align.CENTER} gap="10px">
                 <Avatar
-                    src={user?.pfp ?? `https://cdn.discordapp.com/embed/avatars/0.png`}
+                    src={user?.pfp ?? "https://cdn.discordapp.com/embed/avatars/0.png"}
                     size="SIZE_48"
                 />
                 <Flex direction={Flex.Direction.VERTICAL} style={{ flex: 1, gap: "0px" }}>
@@ -86,8 +85,6 @@ function DevCard({ id, role }: { id: string; role: string; }) {
         </Card>
     );
 }
-
-
 
 function DevTeamSection() {
     const [showDevs, setShowDevs] = React.useState(false);
@@ -205,8 +202,6 @@ function StealthModeButton() {
     );
 }
 
-
-
 function EquicordSettings() {
     const settings = useSettings();
     const stealthActive = useStealthActive();
@@ -323,8 +318,6 @@ function EquicordSettings() {
                         {t("Settings Plugin")}
                     </a>.
                 </Notice.Info>
-
-
 
                 {Switches.filter((s): s is Exclude<typeof s, false> => !!s).map(
                     s => (
@@ -467,6 +460,3 @@ function EquicordSettings() {
 }
 
 export default wrapTab(EquicordSettings, "Nightcord Settings");
-
-
-

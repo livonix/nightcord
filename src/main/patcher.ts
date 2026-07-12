@@ -28,7 +28,6 @@ import { IS_VANILLA } from "./utils/constants";
 
 console.log("[Nightcord] Starting up...");
 
-
 // Our injector file at app/index.js
 const injectorPath = require.main!.filename;
 

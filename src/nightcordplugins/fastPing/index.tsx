@@ -1,15 +1,15 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2026 contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import "./styles.css";
 
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import { insertTextIntoChatInputBox } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
 
 const SNOWFLAKE_RE = /^\d{15,21}$/;
 

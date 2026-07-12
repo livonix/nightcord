@@ -1,15 +1,16 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2024 Vendicated and contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
-import { closeModal, ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize, openModal } from "@utils/modal";
+import { closeModal, ModalCloseButton, ModalContent, ModalRoot, ModalSize, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { Menu, React, Text, useEffect, useState, IconUtils } from "@webpack/common";
 import { findByPropsLazy } from "@webpack";
-import {domain} from "../../../DOMAIN.json";
+import { IconUtils,Menu, React, useEffect, useState } from "@webpack/common";
+
+import { domain } from "../../../DOMAIN.json";
 
 const PresenceStore = findByPropsLazy("getStatus", "isMobileOnline");
 const AuthStore = findByPropsLazy("getToken");

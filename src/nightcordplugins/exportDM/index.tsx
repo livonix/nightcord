@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -9,7 +9,7 @@ import "./styles.css";
 import { addHeaderBarButton, HeaderBarButton, removeHeaderBarButton } from "@api/HeaderBar";
 import { ModalCloseButton,ModalContent, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { ChannelStore, Forms, IconUtils, MessageStore, React, UserStore, useEffect, useState } from "@webpack/common";
+import { ChannelStore, Forms, IconUtils, MessageStore, React, useEffect, UserStore, useState } from "@webpack/common";
 
 import { t } from "../autoTranslateNightcord";
 

@@ -1,15 +1,15 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2026 contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { ChannelStore, RestAPI, UserStore } from "@webpack/common";
-import { tPlugin as t } from "@api/pluginI18n";
+import { ChannelStore, RestAPI } from "@webpack/common";
 
 // Must be at module level — findByPropsLazy returns a lazy proxy that resolves on first access
 const AuthStore = findByPropsLazy("getToken", "getSessionId");
@@ -174,14 +174,14 @@ async function handleMessage(message: any) {
 
     try {
         const body: Record<string, any> = {
-            type: 3,                    // MESSAGE_COMPONENT
+            type: 3, // MESSAGE_COMPONENT
             channel_id: message.channel_id,
             message_id: message.id,
             application_id: message.application_id ?? message.author?.id,
             session_id: sessionId,
             message_flags: message.flags ?? 0,
             data: {
-                component_type: 2,      // BUTTON
+                component_type: 2, // BUTTON
                 custom_id: button.custom_id,
             },
             nonce: generateNonce(),
@@ -193,7 +193,7 @@ async function handleMessage(message: any) {
         await RestAPI.post({ url: "/interactions", body });
 
         lastClaimTimestamp = Date.now();
-        logger.info(`[AutoClaim] ✅ Claimed successfully.`);
+        logger.info("[AutoClaim] ✅ Claimed successfully.");
     } catch (e: any) {
         logger.error("[AutoClaim] ❌ Failed:", e?.body ?? e?.message ?? e);
         processedMessages.delete(msgKey); // allow retry on next update

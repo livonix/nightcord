@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -8,13 +8,14 @@ import "./styles.css";
 
 import { HeaderBarButton } from "@api/HeaderBar";
 import { DataStore } from "@api/index";
+import { isPluginEnabled } from "@api/PluginManager";
+import { definePluginSettings } from "@api/Settings";
+import { SafeDynamicIsland } from "@nightcordplugins/DynamicIslande";
 import { EquicordDevs } from "@utils/constants";
 import { ModalRoot, ModalSize, openModal } from "@utils/modal";
-import { definePluginSettings } from "@api/Settings";
 import definePlugin, { IconComponent, OptionType, PluginNative } from "@utils/types";
-import { ApplicationAssetUtils, MediaEngineStore, React, ReactDOM, createRoot, Select, useEffect, useRef, useState, FluxDispatcher } from "@webpack/common";
-import { isPluginEnabled } from "@api/PluginManager";
-import { SafeDynamicIsland } from "@nightcordplugins/DynamicIslande";
+import { ApplicationAssetUtils, FluxDispatcher,MediaEngineStore, React, Select, useEffect, useRef, useState } from "@webpack/common";
+
 import { t } from "../autoTranslateNightcord";
 
 // ─── Native (IPC → main process) ─────────────────────────────────────────────
@@ -208,7 +209,7 @@ async function playTrackById(trackId: string) {
         if (!json) throw new Error("Track not found");
         const tracks = parseTracks({ collection: [JSON.parse(json)] });
         if (tracks.length === 0) throw new Error("Invalid track data");
-        
+
         playerPlayTrack(tracks[0], -1);
     } catch (e: any) {
         playerState.status = `❌ Failed to load track: ${e.message}`;
@@ -253,8 +254,8 @@ export const playerState = {
     audio: null as HTMLAudioElement | null,
     listeners: new Set<PlayerListener>(),
 
-    notify() { 
-        this.listeners.forEach(l => l()); 
+    notify() {
+        this.listeners.forEach(l => l());
         try {
             FluxDispatcher.dispatch({
                 type: "SOUNDCORD_STATE_UPDATE",
@@ -799,7 +800,6 @@ function SCHeaderBarButton() {
     );
 }
 
-
 // ─── Rich Presence ───────────────────────────────────────────────────────────────────
 
 const RPC_SOCKET_ID = "SoundCordPlayer";
@@ -960,7 +960,7 @@ export default definePlugin({
     description: "Integrated SoundCord player. Client ID is automatically fetched via native Electron process — no account required.",
     authors: [EquicordDevs.nobody],
     settings,
-    
+
     toolboxActions: {
         "Open SoundCord"() {
             openModal(props => (
@@ -973,7 +973,7 @@ export default definePlugin({
 
     headerBarButton: {
         icon: SoundCloudIconComponent,
-        render: (props) => {
+        render: props => {
             // DynamicIslande acts as the primary host. If it's disabled, we render our standalone version for SoundCord.
             const isFullIslandEnabled = isPluginEnabled("DynamicIslande");
             const enableIsland = settings.use(["enableDynamicIsland"]).enableDynamicIsland ?? true;

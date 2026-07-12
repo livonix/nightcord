@@ -22,10 +22,10 @@ import { constants as fsConstants } from "fs";
 import { access, mkdir, rm, writeFile } from "fs/promises";
 import { join } from "path";
 
+import { domain } from "../../../DOMAIN.json";
 import { DATA_DIR } from "./constants";
 import { crxToZip } from "./crxToZip";
 import { fetchBuffer } from "./http";
-import { domain } from "../../../DOMAIN.json";
 
 const extensionCacheDir = join(DATA_DIR, "ExtensionCache");
 
@@ -83,4 +83,3 @@ export async function installExt(id: string) {
     // @ts-expect-error Electron 36 Deprecates session.defaultSession.loadExtension()
     session.defaultSession.extensions ? session.defaultSession.extensions.loadExtension(extDir) : session.defaultSession.loadExtension(extDir);
 }
-

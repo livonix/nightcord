@@ -1,6 +1,7 @@
 /*
- * GIF89a single-frame encoder
- * Octree colour quantisation + GIF-spec LZW compression
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 // ─── Types ───────────────────────────────────────────────────────────────────
@@ -136,10 +137,10 @@ function quantize(rgba: Uint8ClampedArray, totalPixels: number) {
 
 function lzwEncode(pixels: Uint8Array, minCode: number): Uint8Array {
     const clearCode = 1 << minCode;
-    const eofCode  = clearCode + 1;
+    const eofCode = clearCode + 1;
 
     let codeSize = minCode + 1;
-    let maxCode  = 1 << codeSize;
+    let maxCode = 1 << codeSize;
     let nextCode = eofCode + 1;
 
     const table = new Map<string, number>();
@@ -283,7 +284,7 @@ export async function encodeGIF(source: File | Blob, onProgress?: (pct: number) 
     video.src = url;
     video.muted = true;
     video.crossOrigin = "anonymous";
-    
+
     await new Promise((resolve, reject) => {
         video.onloadeddata = resolve;
         video.onerror = reject;
@@ -297,27 +298,27 @@ export async function encodeGIF(source: File | Blob, onProgress?: (pct: number) 
 
     const canvas = new OffscreenCanvas(w, h);
     const ctx = canvas.getContext("2d") as OffscreenCanvasRenderingContext2D;
-    
+
     const frames: { palette: Color[], indices: Uint8Array, delayMs: number }[] = [];
     const rawDuration = isFinite(video.duration) && video.duration > 0 ? video.duration : MAX_DURATION;
     const duration = Math.min(rawDuration, MAX_DURATION);
     const delayMs = 1000 / FPS;
-    
+
     for (let t = 0; t < duration; t += 1 / FPS) {
         const seekPromise = new Promise(resolve => { video.onseeked = resolve; });
         video.currentTime = t;
         await seekPromise;
-        
+
         ctx.drawImage(video, 0, 0, w, h);
         const { data } = ctx.getImageData(0, 0, w, h);
         const { palette, indices } = quantize(data, w * h);
         frames.push({ palette, indices, delayMs });
-        
+
         onProgress?.(t / duration);
     }
-    
+
     URL.revokeObjectURL(url);
     onProgress?.(1);
-    
+
     return buildGIF(w, h, frames);
 }

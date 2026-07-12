@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -12,6 +12,7 @@ import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize, open
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, React, RestAPI, Text, UserStore } from "@webpack/common";
+
 import plugins from "~plugins";
 
 import { getGroqKey, groqChat } from "../nightcordAI/groqManager";
@@ -325,7 +326,7 @@ const AutoResponderButton = () => {
             onClick={toggle}
             onContextMenu={e => {
                 e.preventDefault();
-                openPluginModal(plugins["AutoResponder"] ?? plugins["autoResponder"]);
+                openPluginModal(plugins.AutoResponder ?? plugins.autoResponder);
             }}
         >
             <KeyboardIcon enabled={isEnabled} style={{ color: isEnabled ? "var(--brand-experiment)" : "var(--interactive-normal)" }} />

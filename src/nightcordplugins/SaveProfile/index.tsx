@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,6 +7,7 @@
 import "./styles.css";
 
 import { DataStore } from "@api/index";
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import { getUserSettingLazy } from "@api/UserSettings";
 import { BaseText } from "@components/BaseText";
@@ -14,8 +15,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { findStoreLazy } from "@webpack";
-import { Alerts, Button, Clickable, FluxDispatcher, IconUtils, Menu, openModal, SettingsRouter, showToast, TextInput, Toasts, useEffect, useState } from "@webpack/common";
-import { tPlugin as t } from "@api/pluginI18n";
+import { Alerts, Button, FluxDispatcher, IconUtils, SettingsRouter, showToast, TextInput, Toasts, useEffect, useState } from "@webpack/common";
 
 const logger = new Logger("SaveProfile");
 
@@ -228,14 +228,14 @@ function SaveProfileSettings({ closePluginSettings }: { closePluginSettings: () 
 
     // Rename saved configuration
     const handleRenameProfile = (preset: SavedProfileConfig) => {
-        let name = preset.name;
+        let { name } = preset;
         Alerts.show({
             title: t("Rename Profile Configuration"),
             body: (
                 <TextInput
                     value={name}
                     placeholder={t("Enter new name…")}
-                    onChange={(val) => name = val}
+                    onChange={val => name = val}
                 />
             ),
             confirmText: t("Rename"),

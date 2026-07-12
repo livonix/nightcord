@@ -4,26 +4,26 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { t } from "@api/i18n";
 import { showNotice } from "@api/Notices";
+import { tPlugin } from "@api/pluginI18n";
 import { isPluginEnabled, pluginRequiresRestart, startDependenciesRecursive, startPlugin, stopPlugin } from "@api/PluginManager";
-import { CogWheel, InfoIcon } from "@components/Icons";
+import { Button } from "@components/Button";
+import { HeadingPrimary } from "@components/Heading";
+import { CogWheel } from "@components/Icons";
 import { AddonCard } from "@components/settings/AddonCard";
 import { classNameFactory } from "@utils/css";
 import { Logger } from "@utils/Logger";
 import { ModalCloseButton, ModalContent, ModalHeader, ModalRoot, ModalSize,openModal } from "@utils/modal";
 import { OptionType, Plugin } from "@utils/types";
-import { HeadingPrimary } from "@components/Heading";
-import { Button } from "@components/Button";
 import { React, showToast, Text, Toasts, Tooltip, UserStore } from "@webpack/common";
 import { Settings } from "Vencord";
-import {domain} from "../../../../../DOMAIN.json";
-import { t } from "@api/i18n";
-import { tPlugin } from "@api/pluginI18n";
 
-import { TUTORIAL_CACHE } from "./components/Common";
-import { openPluginModal } from "./PluginModal";
-import { getTutorialVideoName, TUTORIAL_PLUGIN_NAMES } from "./tutorialList";
 import { PluginMeta } from "~plugins";
+
+import { domain } from "../../../../../DOMAIN.json";
+import { openPluginModal } from "./PluginModal";
+import { getTutorialVideoName } from "./tutorialList";
 
 const logger = new Logger("PluginCard");
 const cl = classNameFactory("vc-plugins-");
@@ -242,10 +242,10 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     }
 
     const hasSettings = plugin.settings?.def && Object.values(plugin.settings.def).some(s => s.type !== OptionType.CUSTOM && !s.hidden);
-    
-    const PluginIcon = plugin.headerBarButton?.icon || 
-                       plugin.chatBarButton?.icon || 
-                       plugin.messagePopoverButton?.icon || 
+
+    const PluginIcon = plugin.headerBarButton?.icon ||
+                       plugin.chatBarButton?.icon ||
+                       plugin.messagePopoverButton?.icon ||
                        plugin.userAreaButton?.icon;
 
     return (

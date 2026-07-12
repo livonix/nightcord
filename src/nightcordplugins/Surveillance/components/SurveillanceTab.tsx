@@ -1,11 +1,12 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import "./styles.css";
 
+import { tPlugin as t } from "@api/pluginI18n";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { HeadingPrimary, HeadingTertiary } from "@components/Heading";
 import { SettingsTab, wrapTab } from "@components/settings";
@@ -15,8 +16,6 @@ import { fetchUserProfile, openUserProfile } from "@utils/discord";
 import { classes } from "@utils/misc";
 import type { RenderModalProps } from "@vencord/discord-types";
 import { ChannelStore, GuildStore, IconUtils, Modal, openModal, React, RelationshipStore, ScrollerThin, TextInput, Toasts, useEffect, useMemo, UserProfileStore, UserStore, useState, useStateFromStores } from "@webpack/common";
-import { tPlugin as t } from "@api/pluginI18n";
-
 
 import { addServerTarget, getServerTargets, getTargets, removeServerTarget, removeTarget, setServerTargets, setTargets, settings, subscribeServerTargets, subscribeTargets } from "..";
 import { clearEvents, getEvents, loadEvents, subscribe } from "../store";
@@ -312,7 +311,6 @@ function VoiceParticipantsPanel({ participants, targetUserId }: { participants?:
     );
 }
 
-
 const EventDetailsModal = ErrorBoundary.wrap(function EventDetailsModal({ event, modalProps }: { event: SurveillanceEvent; modalProps: RenderModalProps; }) {
     const channel = event.channelId ? ChannelStore.getChannel(event.channelId) : undefined;
     const guild = event.guildId ? GuildStore.getGuild(event.guildId) : undefined;
@@ -398,7 +396,6 @@ const EventDetailsModal = ErrorBoundary.wrap(function EventDetailsModal({ event,
                         </div>
                     </div>
                 ) : null}
-
 
                 <VoiceParticipantsPanel participants={event.voiceParticipants} targetUserId={event.scope === "person" ? event.userId : undefined} />
 
@@ -698,7 +695,6 @@ function SurveillanceTab() {
 
     const searchPlaceholder = page === "server" ? t("Search servers by name or ID...") : t("Search cached users by name or ID...");
 
-
     const shownTargets = targets.slice(0, TARGET_LIST_LIMIT);
 
     const shownServerTargets = serverTargets.slice(0, TARGET_LIST_LIMIT);
@@ -797,7 +793,6 @@ function SurveillanceTab() {
                         </div>
                     </div>
 
-
                     {targetPanelCollapsed ? (
                         <div className={cl("collapsed-summary")}>
                             {targetCount} {t("targets selected")}
@@ -890,6 +885,5 @@ function SurveillanceTab() {
         </SettingsTab>
     );
 }
-
 
 export default wrapTab(SurveillanceTab, "Surveillance");

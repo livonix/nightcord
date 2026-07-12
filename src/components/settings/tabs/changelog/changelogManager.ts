@@ -5,10 +5,11 @@
  */
 
 import { DataStore } from "@api/index";
-import {domain} from "../../../../../DOMAIN.json";
 
 import gitHash from "~git-hash";
 import plugins from "~plugins";
+
+import { domain } from "../../../../../DOMAIN.json";
 
 export interface ChangelogEntry {
     hash: string;
@@ -487,4 +488,3 @@ export function formatTimestamp(timestamp: number): string {
         return date.toLocaleDateString();
     }
 }
-

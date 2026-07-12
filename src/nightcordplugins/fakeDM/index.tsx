@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -278,7 +278,7 @@ function doRestoreForChannel(channelId: string) {
 
     for (const f of fakes) {
         if (MessageStore.getMessage(channelId, f.snowflakeId)) continue;
-        
+
         if (f.type === "message") {
             const author = UserStore.getUser(f.authorId);
             if (!author) continue;

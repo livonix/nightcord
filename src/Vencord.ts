@@ -35,13 +35,13 @@ import { debounce } from "@shared/debounce";
 import { IS_WINDOWS } from "@utils/constants";
 import { createAndAppendStyle } from "@utils/css";
 import { StartAt } from "@utils/types";
-import { SettingsRouter, Alerts } from "@webpack/common";
+import { Alerts,SettingsRouter } from "@webpack/common";
 
 import { get as dsGet } from "./api/DataStore";
+import { t } from "./api/i18n";
 import { popNotice, showNotice } from "./api/Notices";
 import { showNotification } from "./api/Notifications";
 import { initPluginManager, PMLogger, startAllPlugins } from "./api/PluginManager";
-import { t } from "./api/i18n";
 import { PlainSettings, Settings, SettingsStore } from "./api/Settings";
 import { getCloudSettings, putCloudSettings, shouldCloudSync } from "./api/SettingsSync/cloudSync";
 import { localStorage } from "./utils/localStorage";
@@ -406,4 +406,3 @@ document.addEventListener("DOMContentLoaded", () => {
         createAndAppendStyle("vencord-native-titlebar-style", coreStyleRootNode).textContent = "[class*=titleBar]{display: none!important}";
     }
 }, { once: true });
-

@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -10,6 +10,7 @@ import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findStoreLazy } from "@webpack";
 import { React, RestAPI, useState } from "@webpack/common";
+
 import plugins from "~plugins";
 
 // ── Stores ─────────────────────────────────────────────────────────────────────
@@ -220,7 +221,7 @@ const AutoReplyButton: ChatBarButtonFactory = ({ isMainChat }) => {
             onClick={toggle}
             onContextMenu={e => {
                 e.preventDefault();
-                openPluginModal(plugins["AutoReply"] ?? plugins["autoReply"]);
+                openPluginModal(plugins.AutoReply ?? plugins.autoReply);
             }}
         >
             <AutoReplyIcon active={active} />

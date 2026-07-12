@@ -1,13 +1,13 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
 import "./style.css";
 
-import { definePluginSettings } from "@api/Settings";
 import { tPlugin as t } from "@api/pluginI18n";
+import { definePluginSettings } from "@api/Settings";
 import { getUserSettingLazy } from "@api/UserSettings";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";

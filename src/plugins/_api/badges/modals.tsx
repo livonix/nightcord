@@ -11,7 +11,7 @@ import { Heart } from "@components/Heart";
 import { Paragraph } from "@components/Paragraph";
 import { DonateButton, TranslateButton } from "@components/settings";
 import { Margins } from "@utils/margins";
-import { closeModal, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal, ModalCloseButton } from "@utils/modal";
+import { closeModal, ModalCloseButton,ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 
 export function VencordDonorModal() {
     const modalKey = openModal(props => (

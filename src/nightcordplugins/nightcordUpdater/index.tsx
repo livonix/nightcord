@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,7 +7,8 @@
 import definePlugin from "@utils/types";
 import { waitFor } from "@webpack";
 import { React, useEffect, useState } from "@webpack/common";
-import {domain} from "../../../DOMAIN.json"
+
+import { domain } from "../../../DOMAIN.json";
 // Config
 const REMOTE_VERSION_URL = `https://source.${domain}/api/v1/repos/nightcord/nightcord/releases/latest`;
 

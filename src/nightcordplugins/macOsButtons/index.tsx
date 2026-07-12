@@ -1,6 +1,6 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2024 Vendicated and contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -104,22 +104,22 @@ function injectMacOsButtons() {
     const btnClose = document.createElement("button");
     btnClose.className = "macos-btn macos-btn-close";
     btnClose.title = "Close";
-    btnClose.innerHTML = `<span class="macos-btn-icon"><svg width="6" height="6" viewBox="0 0 6 6" fill="none"><path d="M1 1L5 5M5 1L1 5" stroke="#4d0000" stroke-width="1.3" stroke-linecap="round"/></svg></span>`;
-    btnClose.addEventListener("click", (e) => { e.stopPropagation(); Native.closeWindow(); });
+    btnClose.innerHTML = "<span class=\"macos-btn-icon\"><svg width=\"6\" height=\"6\" viewBox=\"0 0 6 6\" fill=\"none\"><path d=\"M1 1L5 5M5 1L1 5\" stroke=\"#4d0000\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg></span>";
+    btnClose.addEventListener("click", e => { e.stopPropagation(); Native.closeWindow(); });
 
     // Jaune — Minimiser
     const btnMin = document.createElement("button");
     btnMin.className = "macos-btn macos-btn-min";
     btnMin.title = "Minimiser";
-    btnMin.innerHTML = `<span class="macos-btn-icon"><svg width="7" height="2" viewBox="0 0 7 2" fill="none"><path d="M0.5 1H6.5" stroke="#6d4c00" stroke-width="1.3" stroke-linecap="round"/></svg></span>`;
-    btnMin.addEventListener("click", (e) => { e.stopPropagation(); Native.minimizeWindow(); });
+    btnMin.innerHTML = "<span class=\"macos-btn-icon\"><svg width=\"7\" height=\"2\" viewBox=\"0 0 7 2\" fill=\"none\"><path d=\"M0.5 1H6.5\" stroke=\"#6d4c00\" stroke-width=\"1.3\" stroke-linecap=\"round\"/></svg></span>";
+    btnMin.addEventListener("click", e => { e.stopPropagation(); Native.minimizeWindow(); });
 
     // Vert — Maximiser
     const btnMax = document.createElement("button");
     btnMax.className = "macos-btn macos-btn-max";
     btnMax.title = "Maximiser / Restaurer";
-    btnMax.innerHTML = `<span class="macos-btn-icon"><svg width="7" height="7" viewBox="0 0 7 7" fill="none"><path d="M1 6L6 1M1 3.5V1H3.5M3.5 6H6V3.5" stroke="#0a3a00" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>`;
-    btnMax.addEventListener("click", (e) => { e.stopPropagation(); Native.maximizeWindow(); });
+    btnMax.innerHTML = "<span class=\"macos-btn-icon\"><svg width=\"7\" height=\"7\" viewBox=\"0 0 7 7\" fill=\"none\"><path d=\"M1 6L6 1M1 3.5V1H3.5M3.5 6H6V3.5\" stroke=\"#0a3a00\" stroke-width=\"1.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/></svg></span>";
+    btnMax.addEventListener("click", e => { e.stopPropagation(); Native.maximizeWindow(); });
 
     container.appendChild(btnClose);
     container.appendChild(btnMin);

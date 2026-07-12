@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -7,6 +7,7 @@
 import "./style.css";
 
 import { showNotification } from "@api/Notifications";
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Heading } from "@components/Heading";
@@ -15,7 +16,6 @@ import { Paragraph } from "@components/Paragraph";
 import SettingsPlugin from "@plugins/_core/settings";
 import { classes, removeFromArray } from "@utils/misc";
 import definePlugin, { OptionType, PluginNative, ReporterTestable } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
 import { Alerts, Button, React, ScrollerThin, Select, SettingsRouter, showToast, TextInput, Toasts } from "@webpack/common";
 
 import type { ActionInfo, InstallInfo, NativeResult, StereoMethod2Quality } from "./native";

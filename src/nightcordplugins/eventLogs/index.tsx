@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -107,7 +107,7 @@ function scheduleFlush() {
         for (const fn of updateListeners) {
             try { fn(); } catch { }
         }
-        
+
         // Debounce actual localStorage save to 5 seconds to avoid freezing
         if (saveTimer === null) {
             saveTimer = setTimeout(() => {

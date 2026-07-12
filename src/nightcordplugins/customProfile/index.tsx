@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -10,15 +10,15 @@ import { ProfileBadge } from "@api/Badges";
 import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { addHeaderBarButton, HeaderBarButton, removeHeaderBarButton } from "@api/HeaderBar";
 import { DataStore } from "@api/index";
+import { tPlugin as t } from "@api/pluginI18n";
+import { Settings } from "@api/Settings";
 import { ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalRoot, openModal } from "@utils/modal";
 import definePlugin from "@utils/types";
-import { AuthenticationStore, Button, FluxDispatcher, GuildMemberStore, IconUtils, Menu, OAuth2AuthorizeModal, React, Select, SettingsRouter, SnowflakeUtils, UserProfileStore, UserStore } from "@webpack/common";
-import { Settings } from "@api/Settings";
-import { getPublicPluginConfig, saveOwnPluginConfig } from "../../api/PluginSync";
-import { getStoredToken, storeToken, beginDiscordOAuth, API_BASE } from "../../api/OAuth2";
+import { AuthenticationStore, Button, FluxDispatcher, GuildMemberStore, IconUtils, Menu, OAuth2AuthorizeModal, React, Select, SnowflakeUtils, UserProfileStore, UserStore } from "@webpack/common";
 import virtualMerge from "virtual-merge";
 
-import { tPlugin as t } from "@api/pluginI18n";
+import { beginDiscordOAuth,getStoredToken, storeToken } from "../../api/OAuth2";
+import { getPublicPluginConfig, saveOwnPluginConfig } from "../../api/PluginSync";
 
 const DS_KEY = "customProfile_data";
 const DS_ENABLED = "customProfile_enabled";
@@ -616,7 +616,6 @@ const userContextMenuPatch: NavContextMenuPatchCallback = (children, { user }: a
         console.error("[CustomProfile] Context menu patch error:", err);
     }
 };
-
 
 function getRealDateVariants(): string[] {
     try {
@@ -2042,21 +2041,21 @@ export default definePlugin({
                 US.getUser = (id: string) => {
                     const user = origGet(id);
                     if (!user) return user;
-                    
+
                     if (isEnabled && isMe(id)) {
                         return this.fakeCurrentUser(user);
                     }
-                    
+
                     // Check if seeAll was just turned off and clear cache if needed
                     checkSeeAllSettingChange();
-                    
+
                     if (Settings.seeAllCustomProfile) {
                         const cached = publicProfilesCache.get(id);
                         if (cached?.fetched && cached.data) {
                             return this.fakeOtherUser(user, cached.data);
                         }
                     }
-                    
+
                     return user;
                 };
                 US._cp_perfect_hook = true;
@@ -2094,11 +2093,11 @@ export default definePlugin({
                     try {
                         const profile = origGetProfile(userId);
                         if (!userId) return profile;
-                        
+
                         if (isEnabled && isMe(userId) && profile) {
                             return this.hookUserProfile(profile);
                         }
-                        
+
                         if (Settings.seeAllCustomProfile) {
                             fetchPublicProfileIfNeeded(userId);
                             const cached = publicProfilesCache.get(userId);
@@ -2106,7 +2105,7 @@ export default definePlugin({
                                 return this.hookOtherUserProfile(profile, cached.data);
                             }
                         }
-                        
+
                         return profile;
                     } catch (e) {
                         console.error("[CustomProfile] Error in getUserProfile hook:", e);
@@ -2118,11 +2117,11 @@ export default definePlugin({
                     try {
                         const profile = origGetGuild(userId, guildId);
                         if (!userId) return profile;
-                        
+
                         if (isEnabled && isMe(userId) && profile) {
                             return this.hookUserProfile(profile);
                         }
-                        
+
                         if (Settings.seeAllCustomProfile) {
                             fetchPublicProfileIfNeeded(userId);
                             const cached = publicProfilesCache.get(userId);
@@ -2130,7 +2129,7 @@ export default definePlugin({
                                 return this.hookOtherUserProfile(profile, cached.data);
                             }
                         }
-                        
+
                         return profile;
                     } catch (e) {
                         console.error("[CustomProfile] Error in getGuildMemberProfile hook:", e);
@@ -2301,7 +2300,7 @@ export default definePlugin({
                     const d = cached.data;
 
                     const wantedFlags = d.badgeFlags ?? 0;
-                    let badges: ProfileBadge[] = [...(nativeBadges || [])].filter(b => {
+                    const badges: ProfileBadge[] = [...(nativeBadges || [])].filter(b => {
                         const desc = (b.description || "").toLowerCase();
                         const icon = (b.iconSrc || "").toLowerCase();
                         const nitroKw = ["nitro", "subscriber", "abonn", "premium", "inscrit"];

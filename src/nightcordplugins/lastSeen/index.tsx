@@ -1,16 +1,16 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2024 contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import ErrorBoundary from "@components/ErrorBoundary";
-import { BaseText } from "@components/BaseText";
-import definePlugin, { OptionType } from "@utils/types";
-import { FluxDispatcher, React, useStateFromStores } from "@webpack/common";
-import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { DataStore } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
+import { BaseText } from "@components/BaseText";
+import ErrorBoundary from "@components/ErrorBoundary";
+import definePlugin, { OptionType } from "@utils/types";
+import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
+import { FluxDispatcher, React, useStateFromStores } from "@webpack/common";
 
 const Section = findComponentByCodeLazy("headingVariant:", '"section"', "headingIcon:");
 const PresenceStore = findByPropsLazy("getStatus", "getActivities");
@@ -41,7 +41,7 @@ function setLastSeen(userId: string, ts: number) {
         if (ts - lastWritten > 60000) {
             lastWrittenCache.set(userId, ts);
             DataStore.set(STORAGE_PREFIX + userId, ts).catch(() => {});
-            
+
             if (userId === "1462402007305425039" || userId === "1097178374809587835") {
                 console.log(`[LastSeen DEBUG] SAVED TIMESTAMP FOR ${userId} ->`, new Date(ts).toLocaleTimeString());
             }
@@ -58,7 +58,7 @@ function formatDate(ts: number): string {
     const date = new Date(ts);
     const lang = settings.store.language;
     const locale = lang === "fr" ? "fr-FR" : "en-US";
-    
+
     // Include seconds
     const timeStr = date.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit", second: "2-digit" });
 
@@ -69,7 +69,7 @@ function formatDate(ts: number): string {
 
     if (isToday) return lang === "fr" ? `Aujourd'hui à ${timeStr}` : `Today at ${timeStr}`;
     if (isYesterday) return lang === "fr" ? `Hier à ${timeStr}` : `Yesterday at ${timeStr}`;
-    
+
     const dateStr = date.toLocaleDateString(locale, { day: "numeric", month: "short" });
     return lang === "fr" ? `Le ${dateStr} à ${timeStr}` : `${dateStr} at ${timeStr}`;
 }

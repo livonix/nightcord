@@ -1,5 +1,5 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
@@ -10,6 +10,7 @@ import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy, findStoreLazy } from "@webpack";
 import { React } from "@webpack/common";
+
 import plugins from "~plugins";
 
 // ── Discord internals ──────────────────────────────────────────────────────────
@@ -207,7 +208,7 @@ const SelfDestructButton: ChatBarButtonFactory = ({ isMainChat }) => {
             onClick={toggle}
             onContextMenu={e => {
                 e.preventDefault();
-                openPluginModal(plugins["SelfDestruct"] ?? plugins["selfDestruct"]);
+                openPluginModal(plugins.SelfDestruct ?? plugins.selfDestruct);
             }}
         >
             <SelfDestructIcon active={active} />

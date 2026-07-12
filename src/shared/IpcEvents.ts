@@ -72,5 +72,3 @@ export const enum IpcEvents {
     // Relaunch de l'app Electron
     RELAUNCH_APP = "NightcordRelaunchApp",
 }
-
-

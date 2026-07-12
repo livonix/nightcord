@@ -1,6 +1,6 @@
 /*
- * Nightcord, a Discord client mod
- * Copyright (c) 2025 Vendicated and contributors
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
@@ -126,8 +126,6 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
         if (runningRef.current) scheduleNext();
     }
 
-
-
     return (
         <ModalRoot {...rootProps}>
             <ModalHeader className="vc-flood-modal-header">
@@ -141,8 +139,8 @@ export function FloodModal({ channel, rootProps, onRunningChange }: Props) {
                 <HeadingSecondary className={Margins.bottom8}>Messages source</HeadingSecondary>
                 {isEditing ? (
                     <div className={Margins.bottom16}>
-                        <TextArea 
-                            value={editValue} 
+                        <TextArea
+                            value={editValue}
                             onChange={(v: string) => setEditValue(v)}
                             placeholder="Write your phrases here, one per line..."
                             rows={8}

@@ -1,7 +1,14 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { definePluginSettings } from "@api/Settings";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType, PluginNative } from "@utils/types";
 import { showToast, Toasts } from "@webpack/common";
+
 import type { DnsFamily, ResolveProtocol, ShieldResolveResult } from "./native";
 
 const Native = VencordNative.pluginHelpers.TeteDeMull as PluginNative<typeof import("./native")>;
@@ -412,7 +419,7 @@ export default definePlugin({
             window.fetch = async (inp, init) => {
                 try {
                     const urlStr = inp instanceof Request ? inp.url : String(inp);
-                    
+
                     let hasTracked = false;
                     for (const d of setTargetDom) {
                         if (urlStr.includes(d)) {
@@ -521,7 +528,7 @@ export default definePlugin({
                 lesStats.nativeCalls = 0;
             },
             clearCache() {
-                const size = laMalle.size;
+                const { size } = laMalle;
                 laMalle.clear();
                 lesFiles.clear();
                 return size;

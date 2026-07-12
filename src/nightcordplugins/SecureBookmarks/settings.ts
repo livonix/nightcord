@@ -1,12 +1,12 @@
 /*
- * Nightcord, a Discord client mod
+ * Vencord, a Discord client mod
  * Copyright (c) 2026 Vendicated and contributors
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { tPlugin as t } from "@api/pluginI18n";
 import { definePluginSettings } from "@api/Settings";
 import { OptionType } from "@utils/types";
-import { tPlugin as t } from "@api/pluginI18n";
 
 export const PASSWORD_KEYS: Array<"usePassword" | "password"> = ["usePassword", "password"];
 

@@ -1,9 +1,16 @@
+/*
+ * Vencord, a Discord client mod
+ * Copyright (c) 2026 Vendicated and contributors
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
 import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { definePluginSettings } from "@api/Settings";
 import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
 import { showApiKeyWarning } from "@utils/apiKeyWarning";
 import definePlugin, { OptionType } from "@utils/types";
-import { ComponentDispatch, MediaEngineStore, React, showToast, Toasts, useEffect, useRef, useState } from "@webpack/common";
+import { ComponentDispatch, MediaEngineStore, React, useEffect, useRef, useState } from "@webpack/common";
+
 import plugins from "~plugins";
 
 import { getGroqKey } from "../nightcordAI/groqManager";
@@ -270,7 +277,7 @@ const VoiceDictationButton: ChatBarButtonFactory = ({ isMainChat }) => {
             echoCancellation: true,
             noiseSuppression: true,
             sampleRate: 16000,
-        }});
+        } });
         console.log("[VoiceDictation] Got mic stream, tracks:", stream.getAudioTracks().map(t => t.label));
         streamRef.current = stream;
         startRecorder(stream);
@@ -366,7 +373,7 @@ const VoiceDictationButton: ChatBarButtonFactory = ({ isMainChat }) => {
             onClick={toggle}
             onContextMenu={e => {
                 e.preventDefault();
-                openPluginModal(plugins["VoiceDictation"] ?? plugins["voiceDictation"]);
+                openPluginModal(plugins.VoiceDictation ?? plugins.voiceDictation);
             }}
         >
             <DictationIcon recording={recording} processing={processing} />

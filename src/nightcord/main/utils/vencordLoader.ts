@@ -7,10 +7,10 @@
 import { existsSync } from "fs";
 import { join } from "path";
 
+import { domain } from "../../../../DOMAIN.json";
 import { USER_AGENT } from "../constants";
 import { VENCORD_DIR } from "../vencordDir";
 import { downloadFile, fetchie } from "./http";
-import { domain } from "../../../../DOMAIN.json";
 
 const API_BASE = `https://git.${domain}/api/v1`;
 
