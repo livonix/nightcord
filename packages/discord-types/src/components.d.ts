@@ -538,3 +538,10 @@ export type ColorPicker = ComponentType<{
     onChange(value: number | null): void;
     disabled?: boolean;
 }>;
+
+export interface RenderModalProps {
+    transitionState: number;
+    onClose(): void;
+}
+
+export type ModalSize = "small" | "medium" | "large" | "dynamic";

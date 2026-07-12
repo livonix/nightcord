@@ -105,7 +105,7 @@
         "puppeteer-core": "^24.43.1",
         "rcedit": "^5.0.2",
         "source-map-support": "^0.5.21",
-        "standalone-electron-types": "^34.2.0",
+        "standalone-electron-types": "^41.2.1",
         "stylelint": "^16.26.1",
         "stylelint-config-standard": "^39.0.1",
         "ts-patch": "^3.3.0",

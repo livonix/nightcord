@@ -5,7 +5,7 @@
  */
 
 import { BaseText } from "@Nightcord/types/components";
-import { React, useRef,useState } from "react";
+import { React, useRef, useState } from "@Nightcord/types/webpack/common";
 
 import { cl } from "./Settings";
 

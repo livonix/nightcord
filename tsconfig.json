@@ -51,11 +51,62 @@
             "@webpack": [
                 "./webpack/webpack"
             ],
+            "@webpack/types": [
+                "./webpack/types"
+            ],
             "@webpack/patcher": [
                 "./webpack/patchWebpack"
             ],
             "@webpack/wreq.d": [
                 "./webpack/wreq.d"
+            ],
+            "@equicord/types": [
+                "../packages/vencord-types/index"
+            ],
+            "@equicord/types/webpack": [
+                "../packages/vencord-types/webpack-types"
+            ],
+            "@equicord/types/webpack/common": [
+                "../packages/vencord-types/webpack-common"
+            ],
+            "@equicord/types/utils": [
+                "../packages/vencord-types/utils-types"
+            ],
+            "@equicord/types/utils/types": [
+                "../packages/vencord-types/utils-types/types"
+            ],
+            "@equicord/types/components": [
+                "../packages/vencord-types/components-types"
+            ],
+            "@equicord/types/api/*": [
+                "../packages/vencord-types/api/*"
+            ],
+            "@equicord/types/plugins/*": [
+                "../packages/vencord-types/plugins/*"
+            ],
+            "@Nightcord/types": [
+                "../packages/vencord-types/index"
+            ],
+            "@Nightcord/types/webpack": [
+                "../packages/vencord-types/webpack-types"
+            ],
+            "@Nightcord/types/webpack/common": [
+                "../packages/vencord-types/webpack-common"
+            ],
+            "@Nightcord/types/utils": [
+                "../packages/vencord-types/utils-types"
+            ],
+            "@Nightcord/types/utils/types": [
+                "../packages/vencord-types/utils-types/types"
+            ],
+            "@Nightcord/types/components": [
+                "../packages/vencord-types/components-types"
+            ],
+            "@Nightcord/types/api/*": [
+                "../packages/vencord-types/api/*"
+            ],
+            "@Nightcord/types/plugins/*": [
+                "../packages/vencord-types/plugins/*"
             ],
             "@nightcordplugins/*": [
                 "./nightcordplugins/*"

@@ -803,6 +803,14 @@ export const ComponentsIcon = (props?: any) => {
 
 // ─── Compatibility icons for Equicord/Vencord plugins ─────────────────────────
 
+export function SkullIcon(props: IconProps) {
+    return (
+        <Icon {...props} viewBox="0 0 24 24">
+            <path fill={props.fill || "currentColor"} d="M12 2a9 9 0 0 0-9 9v2c0 3.07 1.54 5.78 3.88 7.38l-.88 2.12a1 1 0 0 0 .92 1.5h10.16a1 1 0 0 0 .92-1.5l-.88-2.12A8.99 8.99 0 0 0 21 13v-2a9 9 0 0 0-9-9zm-3 9a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm6 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-5.5 5.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1z"/>
+        </Icon>
+    );
+}
+
 export function HeadphonesIcon(props: IconProps) {
     return (
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width={props.width ?? 24} height={props.height ?? 24} fill="currentColor" className={props.className}>

@@ -74,6 +74,7 @@ window.VencordNative = {
         getUpdates: async () => ({ ok: true, value: [] }),
         update: async () => ({ ok: true, value: false }),
         rebuild: async () => ({ ok: true, value: true }),
+        downloadAndRun: async () => false,
     },
 
     quickCss: {

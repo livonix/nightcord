@@ -20,3 +20,6 @@ overrides:
   "@eslint/plugin-kit@<0.3.4": ">=0.3.4"
   "@electron/asar>minimatch": "^10.2.4"
   "html-minifier-terser>clean-css": "^5.3.3"
+  "@types/react": ^19.2.17
+  "@types/react-dom": ^19.2.3
+  csstype: ^3.2.3
