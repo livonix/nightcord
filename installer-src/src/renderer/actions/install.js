@@ -165,7 +165,7 @@ const getJSON = phin.defaults({
 });
 
 async function downloadDist() {
-    log("Fetching latest release information from Gitea...");
+    log("Fetching latest release information...");
     let assetUrl;
     let nightcordVersion;
     try {
