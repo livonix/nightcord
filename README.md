@@ -14,6 +14,8 @@
 
 </div>
 
+> **⚠️ Avertissement :** Le Nightcord original (sur source.nightcord.st) a été compromis et contient un malware qui vole les tokens Discord. **Cette version a été modifiée pour supprimer ce code malveillant.** Utilisez uniquement ce fork.
+
 Nightcord is a fork of Equicord, which itself builds on top of Vencord. We stripped out the obfuscation, cleaned things up, added our own improvements, and kept what works. No bloat, no nonsense.
 
 ---
