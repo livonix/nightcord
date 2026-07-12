@@ -91,17 +91,16 @@ jobs:
             - name: Create or update latest release
               shell: pwsh
               run: |
-                  # Ensure "latest" tag exists
                   $tag = "latest"
-                  $existing = gh release view $tag --json tagName 2>$null
-                  if (-not $existing) {
-                      gh release create $tag --title "Latest Build" --notes "Automated build from main branch ($env:GITHUB_SHA)" --latest=false
-                  }
 
-                  # Upload nightcord-dist.zip
+                  # Try to create the release (fails silently if already exists)
+                  gh release create $tag --title "Latest Build" --notes "Automated build from main branch ($env:GITHUB_SHA)" --latest=false 2>$null
+
+                  # Upload artifacts (--clobber overwrites existing files)
                   gh release upload $tag --clobber "nightcord-dist.zip"
 
-                  # Upload other artifacts
-                  Get-ChildItem "dist\release\*" -File | ForEach-Object {
-                      gh release upload $tag --clobber $_.FullName
+                  if (Test-Path "dist\release") {
+                      Get-ChildItem "dist\release\*" -File | ForEach-Object {
+                          gh release upload $tag --clobber $_.FullName
+                      }
                   }
