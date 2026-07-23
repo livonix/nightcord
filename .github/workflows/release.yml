@@ -29,6 +29,15 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Sync version with tag
+        shell: pwsh
+        run: |
+          $tag = "$env:GITHUB_REF" -replace '^refs/tags/v', ''
+          $pkg = Get-Content "package.json" -Raw | ConvertFrom-Json
+          $pkg.version = $tag
+          $pkg | ConvertTo-Json -Depth 10 | Set-Content "package.json"
+          Write-Host "Root version set to $tag"
+
       - name: Build Equicord renderer (standalone)
         run: pnpm buildStandalone
 
