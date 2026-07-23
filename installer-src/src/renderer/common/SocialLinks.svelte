@@ -3,7 +3,7 @@
     
     const telegramUrl = "https://t.me/youcordoff";
     const githubUrl = "https://github.com/nightcordlegit/youcord";
-    const webUrl = "https://youcord.st";
+    const webUrl = "https://youcord.fr";
 </script>
 
 <div class="social-links">

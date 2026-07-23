@@ -721,8 +721,8 @@ async function _doRpc() {
                 buttons: ["Watch Together", "Download"],
                 metadata: {
                     button_urls: [
-                        `https://youcord.st/watch?v=${p.video.id}`,
-                        "https://youcord.st",
+                        `https://youcord.fr/watch?v=${p.video.id}`,
+                        "https://youcord.fr",
                     ],
                 },
                 flags: 1,

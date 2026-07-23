@@ -206,7 +206,7 @@ if (require.main === module) {
 }
 
 module.exports = {
-    appId: "com.youcord.app",
+    appId: "com.youcord.fr",
     productName: "YouCord",
     copyright: "Copyright 2026 YouCord",
     extraMetadata: { main: "index.js" },

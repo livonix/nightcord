@@ -464,7 +464,7 @@
     <div class="titlebar">
       <div class="titlebar-left">
         <img src="{{ICON_BASE64}}" class="logo-mark" />
-        <span class="titlebar-title" style="cursor: pointer;" onclick="window.youcord.openUrl('https://youcord.st/')">YouCord Installer</span>
+        <span class="titlebar-title" style="cursor: pointer;" onclick="window.youcord.openUrl('https://youcord.fr/')">YouCord Installer</span>
         <span class="titlebar-version" id="titlebar-version">...</span>
       </div>
       <div class="titlebar-right">
@@ -548,7 +548,7 @@
             </svg>
             <span>Join Telegram Channel</span>
           </button>
-          <button class="btn-setting-link btn-website" onclick="window.youcord.openUrl('https://youcord.st')">
+          <button class="btn-setting-link btn-website" onclick="window.youcord.openUrl('https://youcord.fr')">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="btn-link-icon">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="2" y1="12" x2="22" y2="12"></line>
@@ -736,7 +736,7 @@
       setLoading(true, "Starting installation...", 2);
       setStatus('loading', `Injecting into ${selected.name}...`);
 
-      const started = window.youcord.startInject(selected.path);
+      const started = window.youcord.frartInject(selected.path);
       if (!started || !started.started) {
         setLoading(false);
         setStatus('error', `Error: ${started?.error || 'Could not start inject'}`);
