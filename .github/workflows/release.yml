@@ -32,49 +32,44 @@ jobs:
       - name: Build Equicord renderer (standalone)
         run: pnpm buildStandalone
 
-      - name: Restore cached Discord
-        id: cache-discord
-        uses: actions/cache@v4
-        with:
-          path: .discord
-          key: discord-win-stable
-
-      - name: Download & install Discord
-        if: steps.cache-discord.outputs.cache-hit != 'true'
+      - name: Package youcord-dist.zip
         shell: pwsh
         run: |
-          $setupUrl = "https://discord.com/api/download/stable?platform=win"
-          $setupPath = "$env:RUNNER_TEMP\DiscordSetup.exe"
-          Write-Host "Downloading DiscordSetup.exe..."
-          Invoke-WebRequest -Uri $setupUrl -OutFile $setupPath -MaximumRedirection 5
-          Write-Host "Installing Discord silently..."
-          & $setupPath /s
-          Start-Sleep -Seconds 30
-          New-Item -ItemType Directory -Path ".discord" -Force | Out-Null
-          Copy-Item "$env:LOCALAPPDATA\Discord\app-*" ".discord\" -Recurse -Force
-        timeout-minutes: 10
+          $staging = "youcord-dist-staging"
+          New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
-      - name: Set DISCORD_PATH
+          if (Test-Path "dist\desktop") {
+            Copy-Item "dist\desktop\*" "$staging\" -Recurse -Force
+          } elseif (Test-Path "dist") {
+            Copy-Item "dist\*" "$staging\" -Recurse -Force
+          }
+
+          if (Test-Path "ghost-server") {
+            Copy-Item "ghost-server" "$staging\ghost-server" -Recurse
+          }
+
+          if (-not (Test-Path "$staging\patcher.js")) {
+            Write-Error "BUILD ERROR: patcher.js missing from staging root"
+            exit 1
+          }
+
+          Compress-Archive -Path "$staging\*" -DestinationPath "youcord-dist.zip" -Force
+          Write-Host "youcord-dist.zip created ($($(Get-Item youcord-dist.zip).Length / 1MB) MB)"
+
+      - name: Build YouCord Installer
         shell: pwsh
         run: |
-          $f = Get-ChildItem ".discord\app-*" -Directory | Sort-Object Name -Descending | Select-Object -First 1 -ExpandProperty FullName
-          echo "DISCORD_PATH=$f" >> $env:GITHUB_ENV
-
-      - name: Build YouCord from Discord
-        run: node electron-builder.config.cjs
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Package release/youcord-dist
-        shell: pwsh
-        run: |
-          Compress-Archive -Path "release\youcord-dist\*" -DestinationPath "youcord-dist.zip" -Force
+          Push-Location installer-src
+          npm install --legacy-peer-deps
+          npm run compile
+          npx electron-builder --win -p never
+          Pop-Location
 
       - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             youcord-dist.zip
-            release/youcord-dist/Discord.exe
+            release/installer/YouCord-Installer.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
