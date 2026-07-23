@@ -23,7 +23,7 @@ const UserStore = findStoreLazy("UserStore");
 const DEFAULT_DELAY_MS = 800;
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
-/* â”€â”€ Observable state shared between modal instances â”€â”€ */
+/* ── Observable state shared between modal instances ── */
 const state = {
     running: false,
     finished: false,
@@ -73,28 +73,28 @@ async function startSending(message: string, excludedIds: Set<string> = new Set(
 
     for (const id of friends) {
         if (state.aborted) {
-            state.log.push("â›” Stopped.");
+            state.log.push("⛔ Stopped.");
             state.notify();
             break;
         }
         const user = UserStore?.getUser?.(id);
         const name = user ? (user.globalName || user.username) : id;
 
-        // Remplacement dynamique de @user par la mention rÃ©elle
+        // Remplacement dynamique de @user par la mention réelle
         const personalizedMessage = message.replace(/@user/g, `<@${id}>`);
 
         try {
             const dmRes = await RestAPI.post({ url: "/users/@me/channels", body: { recipient_id: id } });
             if (!dmRes?.body?.id) {
-                state.log.push(`âŒ ${name} â€” channel not found`);
+                state.log.push(`❌ ${name} — channel not found`);
                 state.notify();
                 continue;
             }
             await RestAPI.post({ url: `/channels/${dmRes.body.id}/messages`, body: { content: personalizedMessage, tts: false } });
             state.done++;
-            state.log.push(`âœ… ${name}`);
+            state.log.push(`✅ ${name}`);
         } catch (e: any) {
-            state.log.push(`âŒ ${name} â€” ${e?.message ?? "error"}`);
+            state.log.push(`❌ ${name} — ${e?.message ?? "error"}`);
         }
         state.notify();
         if (!state.aborted) await sleep(state.delayMs);
@@ -105,7 +105,7 @@ async function startSending(message: string, excludedIds: Set<string> = new Set(
     state.notify();
 }
 
-/* â”€â”€ Hook to subscribe to the observable state â”€â”€ */
+/* ── Hook to subscribe to the observable state ── */
 function useObservableState() {
     const [, forceUpdate] = useState(0);
     useEffect(() => {
@@ -116,7 +116,7 @@ function useObservableState() {
     return state;
 }
 
-/* â”€â”€ Icon SVG â”€â”€ */
+/* ── Icon SVG ── */
 function MassDMIcon(props: any) {
     return (
         <svg aria-hidden="true" role="img" xmlns="http://www.w3.org/2000/svg" width={20} height={20} viewBox="0 0 24 24" fill="currentColor" {...props}>
@@ -125,7 +125,7 @@ function MassDMIcon(props: any) {
     );
 }
 
-/* â”€â”€ Modal â”€â”€ */
+/* ── Modal ── */
 function MassDMModal({ rootProps }: { rootProps: any; }) {
     const s = useObservableState();
     const [msg, setMsg] = useState("");
@@ -135,7 +135,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
     const [excludedIds, setExcludedIds] = useState<Set<string>>(new Set());
     const [showMentionHint, setShowMentionHint] = useState(false);
 
-    // Pour le multi-sÃ©lecteur premium
+    // Pour le multi-sélecteur premium
     const [isSelectOpen, setIsSelectOpen] = useState(false);
     const logRef = useRef<any>(null);
     const delayInputRef = useRef<HTMLInputElement>(null);
@@ -244,7 +244,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                                 {showMentionHint && (
                                     <div className="mdm-mention-hint" onClick={insertMention}>
                                         <div className="mdm-mention-hint-item">
-                                            <strong>@user</strong> â€” Mentionner le destinataire
+                                            <strong>@user</strong> — Mentionner le destinataire
                                         </div>
                                     </div>
                                 )}
@@ -254,7 +254,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                 )}
                 {idle && (
                     <p className={`mdm-warn ${Margins.top16}`}>
-                        âš ï¸ Will be sent to <strong>{friends.length - excludedIds.size} friends</strong> â€”{" "}
+                        ⚠️ Will be sent to <strong>{friends.length - excludedIds.size} friends</strong> —{" "}
                         {editingDelay ? (
                             <input
                                 ref={delayInputRef}
@@ -300,7 +300,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                             <div className="mdm-bar-fill" style={{ width: `${pct}%` }} />
                         </div>
                         {s.finished && (
-                            <p className="mdm-done">âœ… Finished â€” {s.done} message{s.done > 1 ? "s" : ""} sent.</p>
+                            <p className="mdm-done">✅ Finished — {s.done} message{s.done > 1 ? "s" : ""} sent.</p>
                         )}
                         <ScrollerThin className="mdm-log" ref={logRef}>
                             {s.log.map((line, i) => <div key={i} className="mdm-log-line">{line}</div>)}
@@ -313,13 +313,13 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
                 {idle && (
                     <>
                         <Button variant="secondary" onClick={rootProps.onClose}>Cancel</Button>
-                        <Button variant="positive" onClick={() => startSending(msg, excludedIds)} disabled={!msg.trim()}>â–¶ Start</Button>
+                        <Button variant="positive" onClick={() => startSending(msg, excludedIds)} disabled={!msg.trim()}>▶ Start</Button>
                     </>
                 )}
                 {s.running && (
                     <>
                         <Button variant="secondary" onClick={rootProps.onClose}>Close (background)</Button>
-                        <Button variant="dangerPrimary" onClick={() => { state.aborted = true; }}>â›” Stop</Button>
+                        <Button variant="dangerPrimary" onClick={() => { state.aborted = true; }}>⛔ Stop</Button>
                     </>
                 )}
                 {s.finished && (
@@ -333,7 +333,7 @@ function MassDMModal({ rootProps }: { rootProps: any; }) {
     );
 }
 
-/* â”€â”€ Header bar button â”€â”€ */
+/* ── Header bar button ── */
 function MassDMButton() {
     return (
         <HeaderBarButton
@@ -344,7 +344,7 @@ function MassDMButton() {
     );
 }
 
-/* â”€â”€ Plugin definition â”€â”€ */
+/* ── Plugin definition ── */
 export default definePlugin({
     name: "MassDM",
     enabledByDefault: true,
