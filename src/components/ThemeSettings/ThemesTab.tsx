@@ -386,15 +386,6 @@ function ThemesTab() {
     const [searchQuery, setSearchQuery] = useState("");
     const [filter, setFilter] = useState(ThemeFilter.All);
 
-    useEffect(() => {
-        async function updateThemes() {
-            await changeThemeLibraryURLs();
-            refreshLocalThemes();
-            refreshOnlineThemes();
-        }
-        updateThemes();
-    }, [changeThemeLibraryURLs, refreshOnlineThemes]);
-
     const changeThemeLibraryURLs = useCallback(async () => {
         settings.themeLinks = settings.themeLinks.map(link => {
             if (link.startsWith("https://discord-themes.com/api")) {
@@ -513,6 +504,15 @@ function ThemesTab() {
         );
         setOnlineThemes(themes.filter(theme => theme !== null));
     }, [settings.themeLinks, setOnlineThemes]);
+
+    useEffect(() => {
+        async function updateThemes() {
+            await changeThemeLibraryURLs();
+            refreshLocalThemes();
+            refreshOnlineThemes();
+        }
+        updateThemes();
+    }, [changeThemeLibraryURLs, refreshOnlineThemes]);
 
     function onThemeLinkEnabledChange(link: string, enabled: boolean) {
         if (enabled) {

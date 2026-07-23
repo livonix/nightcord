@@ -242,18 +242,6 @@ function ChangelogContent() {
     const [recentlyChecked, setRecentlyChecked] = React.useState(false);
 
     React.useEffect(() => {
-        const init = async () => {
-            try {
-                await initializeChangelog();
-                await loadChangelogHistory();
-            } catch (err) {
-                console.error("Failed to initialize changelog:", err);
-            }
-        };
-        init();
-    }, [loadChangelogHistory]);
-
-    React.useEffect(() => {
         if (repoErr) {
             UpdateLogger.error("Failed to retrieve repo", repoErr);
             setError("Failed to retrieve repository information");
@@ -268,6 +256,18 @@ function ChangelogContent() {
             console.error("Failed to load changelog history:", err);
         }
     }, []);
+
+    React.useEffect(() => {
+        const init = async () => {
+            try {
+                await initializeChangelog();
+                await loadChangelogHistory();
+            } catch (err) {
+                console.error("Failed to initialize changelog:", err);
+            }
+        };
+        init();
+    }, [loadChangelogHistory]);
 
     const loadNewPlugins = React.useCallback(async () => {
         try {
