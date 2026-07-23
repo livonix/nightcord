@@ -387,12 +387,19 @@ function ThemesTab() {
     const [filter, setFilter] = useState(ThemeFilter.All);
 
     const changeThemeLibraryURLs = useCallback(async () => {
-        settings.themeLinks = settings.themeLinks.map(link => {
+        const newLinks = settings.themeLinks.map(link => {
             if (link.startsWith("https://discord-themes.com/api")) {
                 return link.replace("https://discord-themes.com/api", "https://themes.equicord.org/api");
             }
             return link;
         });
+        // Only write back if something actually changed. settings.themeLinks is a
+        // dependency of refreshOnlineThemes, so reassigning it to a new array every
+        // call (even a no-op .map()) changes its identity, which recreates
+        // refreshOnlineThemes, which reruns the effect below, which calls this again
+        // — an infinite render loop (React error #185) on the Themes tab.
+        const changed = newLinks.some((link, i) => link !== settings.themeLinks[i]);
+        if (changed) settings.themeLinks = newLinks;
     }, [settings]);
 
     async function refreshLocalThemes() {
