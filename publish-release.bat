@@ -22,7 +22,7 @@ if "%VERSION%"=="" (
 if "%NOTES%"=="" set NOTES=YouCord %VERSION%
 
 :: â”€â”€ Config Gitea â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-set GITEA_URL=https://source.youcord.st
+set GITEA_URL=https://source.youcord.fr
 set GITEA_REPO=youcord/youcord
 set GITEA_API=%GITEA_URL%/api/v1
 
@@ -218,7 +218,7 @@ echo  Upload de desktop.asar...
 powershell -NoProfile -Command ^
     "$token = '%GITEA_TOKEN%';" ^
     "$bytes = [System.IO.File]::ReadAllBytes('dist\desktop.asar');" ^
-    "$uri = 'https://source.youcord.st/api/v1/repos/youcord/youcord/releases/%RELEASE_ID%/assets?name=desktop.asar';" ^
+    "$uri = 'https://source.youcord.fr/api/v1/repos/youcord/youcord/releases/%RELEASE_ID%/assets?name=desktop.asar';" ^
     "Invoke-RestMethod -Uri $uri -Method POST -Headers @{Authorization='token '+$token} -ContentType 'application/octet-stream' -Body $bytes | Out-Null;" ^
     "Write-Host 'OK'"
 if errorlevel 1 ( echo  [ERREUR] Upload desktop.asar echoue. & pause & exit /b 1 )

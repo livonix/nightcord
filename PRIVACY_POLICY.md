@@ -1,7 +1,7 @@
 ﻿# Privacy Policy
 
 This file is a short summary. The full, always up to date Privacy Policy is published at
-**https://youcord.st/privacy** â€” that page is the canonical version; if anything here ever
+**https://youcord.fr/privacy** â€” that page is the canonical version; if anything here ever
 conflicts with it, the website version applies.
 
 ## Summary
@@ -9,7 +9,7 @@ conflicts with it, the website version applies.
 YouCord is a client modification for Discord. Most functionality (plugins, themes, settings,
 keybinds) runs entirely on your device and is never sent to us.
 
-A small set of **opt-in** features talk to our backend at `api.youcord.st`:
+A small set of **opt-in** features talk to our backend at `api.youcord.fr`:
 
 - Signing in with Discord (OAuth2, scopes `identify` and `guilds.join`) â€” stores your Discord
   user ID, username, display name, avatar URL, and OAuth access/refresh tokens so you stay
@@ -36,4 +36,4 @@ still happen through Discord's own infrastructure and is governed by
 [Discord's Privacy Policy](https://discord.com/privacy/).
 
 For the full breakdown (data retention, deletion, browser extension permissions, contact
-details), see **https://youcord.st/privacy**.
+details), see **https://youcord.fr/privacy**.

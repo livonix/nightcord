@@ -8,13 +8,13 @@
 [![Telegram](https://img.shields.io/badge/Telegram-Join%20us-26A5E4?logo=telegram&logoColor=white)](https://t.me/youcordoff)
 [![License](https://img.shields.io/badge/license-GPL%20v3-a855f7)](./LICENSE)
 [![Platform](https://img.shields.io/badge/platform-Windows-3b82f6.svg?logo=windows\&logoColor=white)](https://github.com/nightcordlegit/youcord)
-[![Website](https://img.shields.io/badge/website-youcord.st-5865F2?logo=googlechrome\&logoColor=white)](https://youcord.st)
+[![Website](https://img.shields.io/badge/website-youcord.fr-5865F2?logo=googlechrome\&logoColor=white)](https://youcord.fr)
 
 ---
 
 </div>
 
-> **âš ï¸ Warning:** The original YouCord (at source.youcord.st) has been compromised and contains malware that steals Discord tokens. **This version has been modified to remove that malicious code.** Use only this fork.
+> **âš ï¸ Warning:** The original YouCord (at source.youcord.fr) has been compromised and contains malware that steals Discord tokens. **This version has been modified to remove that malicious code.** Use only this fork.
 
 YouCord is a fork of Equicord, which itself builds on top of Vencord. We stripped out the obfuscation, cleaned things up, added our own improvements, and kept what works. No bloat, no nonsense.
 
