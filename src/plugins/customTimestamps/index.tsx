@@ -71,43 +71,45 @@ const TimeRow = (props: TimeRowProps) => {
     );
 };
 
+const FormatsComponent = (componentProps: any) => {
+    const [settingsState, setSettingsState] = useState(useSettings().plugins?.CustomTimestamps?.formats ?? {});
+
+    const setNewValue = (key: string, value: string) => {
+        const newSettings = { ...settingsState, [key]: value };
+        setSettingsState(newSettings);
+        componentProps.setValue(newSettings);
+    };
+
+    return (
+        <>
+            <DemoMessageContainer />
+            {Object.entries(timeFormats).map(([key, value]) => (
+                <section key={key}>
+                    {key === "sameDayFormat" && (
+                        <div className={Margins.bottom20}>
+                            <Divider style={{ marginBottom: "10px" }} />
+                            <Heading tag="h1">Calendar formats</Heading>
+                            <Paragraph>
+                                How to format the [calendar] value if used in the above timestamps.
+                            </Paragraph>
+                        </div>
+                    )}
+                    <TimeRow
+                        id={key}
+                        format={value}
+                        onChange={setNewValue}
+                        pluginSettings={settingsState}
+                    />
+                </section>
+            ))}
+        </>);
+}
+
 const settings = definePluginSettings({
     formats: {
         type: OptionType.COMPONENT,
         description: "Customize the timestamp formats",
-        component: componentProps => {
-            const [settingsState, setSettingsState] = useState(useSettings().plugins?.CustomTimestamps?.formats ?? {});
-
-            const setNewValue = (key: string, value: string) => {
-                const newSettings = { ...settingsState, [key]: value };
-                setSettingsState(newSettings);
-                componentProps.setValue(newSettings);
-            };
-
-            return (
-                <>
-                    <DemoMessageContainer />
-                    {Object.entries(timeFormats).map(([key, value]) => (
-                        <section key={key}>
-                            {key === "sameDayFormat" && (
-                                <div className={Margins.bottom20}>
-                                    <Divider style={{ marginBottom: "10px" }} />
-                                    <Heading tag="h1">Calendar formats</Heading>
-                                    <Paragraph>
-                                        How to format the [calendar] value if used in the above timestamps.
-                                    </Paragraph>
-                                </div>
-                            )}
-                            <TimeRow
-                                id={key}
-                                format={value}
-                                onChange={setNewValue}
-                                pluginSettings={settingsState}
-                            />
-                        </section>
-                    ))}
-                </>);
-        }
+        component: FormatsComponent
     }
 }).withPrivateSettings<{
     formats: {
@@ -149,17 +151,17 @@ export default definePlugin({
                 {
                     // Aria label on timestamps
                     match: /\i.useMemo\(.{0,10}\i\.\i\)\(.{0,10}\]\)/,
-                    replace: "$self.renderTimestamp(arguments[0].timestamp,'ariaLabel')"
+                    replace: "$self.useRenderTimestamp(arguments[0].timestamp,'ariaLabel')"
                 },
                 {
                     // Timestamps on messages
                     match: /\i\.useMemo\(.{0,50}"LT".{0,30}\]\)/,
-                    replace: "$self.renderTimestamp(arguments[0].timestamp,arguments[0].compact?'compact':'cozy')",
+                    replace: "$self.useRenderTimestamp(arguments[0].timestamp,arguments[0].compact?'compact':'cozy')",
                 },
                 {
                     // Tooltips when hovering over message timestamps
                     match: /(__unsupportedReactNodeAsText:).{0,25}"LLLL"\)/,
-                    replace: "$1$self.renderTimestamp(arguments[0].timestamp,'tooltip')",
+                    replace: "$1$self.useRenderTimestamp(arguments[0].timestamp,'tooltip')",
                 },
             ]
         },
@@ -168,12 +170,12 @@ export default definePlugin({
             replacement: {
                 // Tooltips for timestamp markdown (e.g. <t:1234567890>)
                 match: /(__unsupportedReactNodeAsText:)\i.full/,
-                replace: "$1$self.renderTimestamp(new Date(arguments[0].node.timestamp*1000),'tooltip')"
+                replace: "$1$self.useRenderTimestamp(new Date(arguments[0].node.timestamp*1000),'tooltip')"
             }
         }
     ],
 
-    renderTimestamp: (date: Date, type: "cozy" | "compact" | "tooltip" | "ariaLabel") => {
+    useRenderTimestamp: (date: Date, type: "cozy" | "compact" | "tooltip" | "ariaLabel") => {
         const forceUpdater = useForceUpdater();
         let formatTemplate: string;
 
@@ -196,7 +198,7 @@ export default definePlugin({
                 const interval = setInterval(forceUpdater, 1000);
                 return () => clearInterval(interval);
             }
-        }, []);
+        }, [forceUpdater, formatTemplate]);
 
         return format(date, formatTemplate);
     }

@@ -60,7 +60,7 @@ export default definePlugin({
                 },
                 {
                     match: /(\[\i,\i\]=\i\.useState\(""\))/,
-                    replace: "$1,[collected,drag]=$self.drag(arguments[0])",
+                    replace: "$1,[collected,drag]=$self.useDragHook(arguments[0])",
                 },
                 {
                     match: /(onFocus:.{0,50}\(\i,{ref:)(\i),/,
@@ -72,16 +72,16 @@ export default definePlugin({
                 },
                 {
                     match: /(delay:200,children:)(\i)/,
-                    replace: "$1[$2,$self.wrapper(arguments[0]?.descriptor)]",
+                    replace: "$1[$2,$self.Wrapper(arguments[0]?.descriptor)]",
                 },
                 {
                     match: /(delay:200,children:.{0,100}\}\):)(\i)\)/,
-                    replace: "$1[$2,$self.wrapper(arguments[0]?.descriptor)])",
+                    replace: "$1[$2,$self.Wrapper(arguments[0]?.descriptor)])",
                 },
             ],
         },
     ],
-    drag(e: { descriptor: EmojiDescriptor; }) {
+    useDragHook(e: { descriptor: EmojiDescriptor; }) {
         return useDrag(
             () => ({
                 type: "emoji",
@@ -93,7 +93,7 @@ export default definePlugin({
             }),
             [e?.descriptor],);
     },
-    drop({ emoji, category }: EmojiDescriptor) {
+    useDropHook({ emoji, category }: EmojiDescriptor) {
         return useDrop(() => ({
             accept: "emoji",
             canDrop() {
@@ -129,8 +129,8 @@ export default definePlugin({
             <span className={classes(cl("item"), imgCls.imageLoading)} />
         );
     },
-    wrapper(emoji: EmojiDescriptor) {
-        const [collected, drop] = this.drop(emoji);
+    Wrapper(emoji: EmojiDescriptor) {
+        const [collected, drop] = this.useDropHook(emoji);
         const ref: React.RefObject<null | HTMLElement> = useRef(null);
         useLayoutEffect(() => {
             if (emoji?.category !== "FAVORITES") return;
@@ -146,7 +146,7 @@ export default definePlugin({
             }
             );
             return () => cancelAnimationFrame(frame);
-        }, [collected, ref]);
+        }, [collected, ref, emoji?.category]);
 
         if (emoji?.category !== "FAVORITES") return;
 
