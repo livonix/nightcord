@@ -226,111 +226,115 @@ const settings = definePluginSettings({
     overrides: {
         type: OptionType.COMPONENT,
         description: "",
-        component: () => {
-            const [resetTrigger, setResetTrigger] = React.useState(0);
-            const [searchQuery, setSearchQuery] = React.useState("");
-            const fileInputRef = React.useRef<HTMLInputElement>(null);
+        component: OverridesComponent
+    },
+});
 
-            React.useEffect(() => {
-                allSoundTypes.forEach(type => {
-                    if (!settings.store[type.id]) {
-                        setOverride(type.id, makeEmptyOverride());
-                    }
-                });
-            }, []);
+function OverridesComponent() {
+    const [resetTrigger, setResetTrigger] = React.useState(0);
+    const [searchQuery, setSearchQuery] = React.useState("");
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-            const resetOverrides = () => {
-                allSoundTypes.forEach(type => {
-                    setOverride(type.id, makeEmptyOverride());
-                });
-                dataUriCache.clear();
-                setResetTrigger(prev => prev + 1);
-                showToast("All overrides reset successfully!");
-            };
+    React.useEffect(() => {
+        allSoundTypes.forEach(type => {
+            if (!settings.store[type.id]) {
+                setOverride(type.id, makeEmptyOverride());
+            }
+        });
+    }, []);
 
-            const triggerFileUpload = () => {
-                fileInputRef.current?.click();
-            };
+    const resetOverrides = () => {
+        allSoundTypes.forEach(type => {
+            setOverride(type.id, makeEmptyOverride());
+        });
+        dataUriCache.clear();
+        setResetTrigger(prev => prev + 1);
+        showToast("All overrides reset successfully!");
+    };
 
-            const handleSettingsUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-                const file = event.target.files?.[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = async (e: ProgressEvent<FileReader>) => {
-                        try {
-                            resetOverrides();
-                            const imported = JSON.parse(e.target?.result as string);
+    const triggerFileUpload = () => {
+        fileInputRef.current?.click();
+    };
 
-                            if (imported.overrides && Array.isArray(imported.overrides)) {
-                                imported.overrides.forEach((setting: any) => {
-                                    if (setting.id) {
-                                        const override: SoundOverride = {
-                                            enabled: setting.enabled ?? false,
-                                            selectedSound: setting.selectedSound ?? "default",
-                                            selectedFileId: setting.selectedFileId ?? undefined,
-                                            volume: setting.volume ?? 100,
-                                            useFile: false
-                                        };
-                                        setOverride(setting.id, override);
-                                    }
-                                });
+    const handleSettingsUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = async (e: ProgressEvent<FileReader>) => {
+                try {
+                    resetOverrides();
+                    const imported = JSON.parse(e.target?.result as string);
+
+                    if (imported.overrides && Array.isArray(imported.overrides)) {
+                        imported.overrides.forEach((setting: any) => {
+                            if (setting.id) {
+                                const override: SoundOverride = {
+                                    enabled: setting.enabled ?? false,
+                                    selectedSound: setting.selectedSound ?? "default",
+                                    selectedFileId: setting.selectedFileId ?? undefined,
+                                    volume: setting.volume ?? 100,
+                                    useFile: false
+                                };
+                                setOverride(setting.id, override);
                             }
+                        });
+                    }
 
-                            setResetTrigger(prev => prev + 1);
-                            showToast("Settings imported successfully!");
-                        } catch (error) {
-                            console.error("Error importing settings:", error);
-                            showToast("Error importing settings. Check console for details.");
-                        }
-                    };
-
-                    reader.readAsText(file);
-                    event.target.value = "";
+                    setResetTrigger(prev => prev + 1);
+                    showToast("Settings imported successfully!");
+                } catch (error) {
+                    console.error("Error importing settings:", error);
+                    showToast("Error importing settings. Check console for details.");
                 }
             };
 
-            const downloadSettings = async () => {
-                const overrides = allSoundTypes.map(type => {
-                    const override = getOverride(type.id);
-                    return {
-                        id: type.id,
-                        enabled: override.enabled,
-                        selectedSound: override.selectedSound,
-                        selectedFileId: override.selectedFileId ?? undefined,
-                        volume: override.volume
-                    };
-                }).filter(o => o.enabled || o.selectedSound !== "default");
+            reader.readAsText(file);
+            event.target.value = "";
+        }
+    };
 
-                const exportPayload = {
-                    overrides,
-                    __note: "Audio files are not included in exports and will need to be re-uploaded after import"
-                };
-
-                const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: "application/json" });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement("a");
-                a.href = url;
-                a.download = "customSounds-settings.json";
-                a.click();
-                URL.revokeObjectURL(url);
-
-                showToast(`Exported ${overrides.length} settings (audio files not included)`);
+    const downloadSettings = async () => {
+        const overrides = allSoundTypes.map(type => {
+            const override = getOverride(type.id);
+            return {
+                id: type.id,
+                enabled: override.enabled,
+                selectedSound: override.selectedSound,
+                selectedFileId: override.selectedFileId ?? undefined,
+                volume: override.volume
             };
+        }).filter(o => o.enabled || o.selectedSound !== "default");
 
-            const filteredSoundTypes = allSoundTypes.filter(type =>
-                type.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                type.id.toLowerCase().includes(searchQuery.toLowerCase())
-            );
+        const exportPayload = {
+            overrides,
+            __note: "Audio files are not included in exports and will need to be re-uploaded after import"
+        };
 
-            return (
-                <div>
-                    <div className="vc-custom-sounds-buttons">
-                        <Button color={Button.Colors.BRAND} onClick={triggerFileUpload}>Import</Button>
-                        <Button color={Button.Colors.PRIMARY} onClick={downloadSettings}>Export</Button>
-                        <Button color={Button.Colors.RED} onClick={resetOverrides}>Reset All</Button>
-                        <Button color={Button.Colors.WHITE} onClick={debugCustomSounds}>Debug</Button>
-                        <input
-                            ref={fileInputRef}
+        const blob = new Blob([JSON.stringify(exportPayload, null, 2)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "customSounds-settings.json";
+        a.click();
+        URL.revokeObjectURL(url);
+
+        showToast(`Exported ${overrides.length} settings (audio files not included)`);
+    };
+
+    const filteredSoundTypes = allSoundTypes.filter(type =>
+        type.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        type.id.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+
+    return (
+        <div>
+            <div className="vc-custom-sounds-buttons">
+                <Button color={Button.Colors.BRAND} onClick={triggerFileUpload}>Import</Button>
+                <Button color={Button.Colors.PRIMARY} onClick={downloadSettings}>Export</Button>
+                <Button color={Button.Colors.RED} onClick={resetOverrides}>Reset All</Button>
+                <Button color={Button.Colors.WHITE} onClick={debugCustomSounds}>Debug</Button>
+                <input
+                    ref={fileInputRef}
                             type="file"
                             accept=".json"
                             style={{ display: "none" }}
@@ -378,8 +382,6 @@ const settings = definePluginSettings({
                 </div>
             );
         }
-    }
-});
 
 export function isOverriden(id: string): boolean {
     return !!getOverride(id)?.enabled;
