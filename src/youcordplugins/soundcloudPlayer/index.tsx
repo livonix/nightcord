@@ -18,11 +18,11 @@ import { SafeDynamicIsland } from "@youcordplugins/DynamicIslande";
 
 import { t } from "../autoTranslateYouCord";
 
-// â”€â”€â”€ Native (IPC â†’ main process) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Native (IPC → main process) ─────────────────────────────────────────────
 
 const Native = VencordNative.pluginHelpers.SoundCordPlayer as PluginNative<typeof import("./native")>;
 
-// â”€â”€â”€ SoundCord Icon â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── SoundCord Icon ──────────────────────────────────────────────────────────
 
 function SoundCloudIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
@@ -34,7 +34,7 @@ function SoundCloudIcon(props: React.SVGProps<SVGSVGElement>) {
 
 const SoundCloudIconComponent: IconComponent = props => <SoundCloudIcon {...props} />;
 
-// â”€â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Types ────────────────────────────────────────────────────────────────────
 
 interface ScTrack {
     id: string;
@@ -45,7 +45,7 @@ interface ScTrack {
     durationMs: number;
 }
 
-// â”€â”€â”€ DataStore keys â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── DataStore keys ───────────────────────────────────────────────────────────
 
 const SC_CLIENT_ID_KEY = "SoundCordPlayer_clientId";
 const SC_FAVS_KEY = "SoundCordPlayer_favorites";
@@ -66,7 +66,7 @@ async function saveClientId(id: string) {
     try { await DataStore.set(SC_CLIENT_ID_KEY, id); } catch { }
 }
 
-// â”€â”€â”€ Client ID Fetch via native (main process) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Client ID Fetch via native (main process) ────────────────────────────
 
 async function fetchClientId(): Promise<string | null> {
     const cached = await loadCachedClientId();
@@ -95,7 +95,7 @@ async function refreshClientId(): Promise<string | null> {
     return fetchClientId();
 }
 
-// â”€â”€â”€ SoundCloud API via native â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── SoundCloud API via native ────────────────────────────────────────────────
 
 function parseTracks(data: any): ScTrack[] {
     if (!data?.collection) return [];
@@ -105,7 +105,7 @@ function parseTracks(data: any): ScTrack[] {
         let streamUrl = "";
         const transcodings = item.media?.transcodings ?? [];
 
-        // PrioritÃ© 1 : progressive (MP3 direct)
+        // Priorité 1 : progressive (MP3 direct)
         for (const tc of transcodings) {
             if (tc.format?.protocol === "progressive" && tc.url) {
                 streamUrl = tc.url;
@@ -113,7 +113,7 @@ function parseTracks(data: any): ScTrack[] {
             }
         }
 
-        // PrioritÃ© 2 : hls (m3u8 - mieux supportÃ© par les navigateurs modernes)
+        // Priorité 2 : hls (m3u8 - mieux supporté par les navigateurs modernes)
         if (!streamUrl) {
             for (const tc of transcodings) {
                 if (tc.format?.protocol === "hls" && tc.url) {
@@ -150,7 +150,7 @@ async function searchTracks(query: string, clientId: string): Promise<ScTrack[]>
 async function getStreamUrl(streamUrl: string, clientId: string): Promise<string> {
     if (!streamUrl) throw new Error("Stream URL not found");
 
-    // Si c'est dÃ©jÃ  une URL de stream finale ou HLS directe
+    // Si c'est déjà  une URL de stream finale ou HLS directe
     if (streamUrl.includes("cf-hls-media") || streamUrl.includes("cf-media")) {
         return streamUrl;
     }
@@ -173,7 +173,7 @@ async function refreshTrackData(track: ScTrack, clientId: string): Promise<ScTra
         let streamUrl = "";
         const transcodings = data.media?.transcodings ?? [];
 
-        // PrioritÃ© 1 : progressive (MP3 direct) - le plus stable
+        // Priorité 1 : progressive (MP3 direct) - le plus stable
         for (const tc of transcodings) {
             if (tc.format?.protocol === "progressive" && tc.url) {
                 streamUrl = tc.url;
@@ -181,7 +181,7 @@ async function refreshTrackData(track: ScTrack, clientId: string): Promise<ScTra
             }
         }
 
-        // PrioritÃ© 2 : hls (fallback)
+        // Priorité 2 : hls (fallback)
         if (!streamUrl) {
             for (const tc of transcodings) {
                 if (tc.format?.protocol === "hls" && tc.url) {
@@ -212,12 +212,12 @@ async function playTrackById(trackId: string) {
 
         playerPlayTrack(tracks[0], -1);
     } catch (e: any) {
-        playerState.status = `âŒ Failed to load track: ${e.message}`;
+        playerState.status = `❌ Failed to load track: ${e.message}`;
         playerState.notify();
     }
 }
 
-// â”€â”€â”€ Favorites â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Favorites ──────────────────────────────────────────────────────────────────
 
 async function loadFavorites(): Promise<ScTrack[]> {
     try { return (await DataStore.get<ScTrack[]>(SC_FAVS_KEY)) ?? []; }
@@ -228,14 +228,14 @@ async function saveFavorites(favs: ScTrack[]) {
     try { await DataStore.set(SC_FAVS_KEY, favs); } catch { }
 }
 
-// â”€â”€â”€ Duration helper â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Duration helper ─────────────────────────────────────────────────────────────
 
 function fmtDuration(ms: number): string {
     const s = Math.floor(ms / 1000);
     return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`;
 }
 
-// â”€â”€â”€ Player singleton (persiste aprÃ¨s fermeture de la modal) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Player singleton (persiste après fermeture de la modal) ─────────────────
 
 type PlayerListener = () => void;
 
@@ -250,7 +250,7 @@ export const playerState = {
     volume: 80,
     favIndex: -1,
     favorites: [] as ScTrack[],
-    status: "Connecting to SoundCloudâ€¦",
+    status: "Connecting to SoundCloud…",
     audio: null as HTMLAudioElement | null,
     listeners: new Set<PlayerListener>(),
 
@@ -282,7 +282,7 @@ async function initPlayer() {
         playerState.clientId = id;
         playerState.status = "Search for a title or an artist...";
     } else {
-        playerState.status = "âŒ Impossible to obtain client_id. Check your connection.";
+        playerState.status = "❌ Impossible to obtain client_id. Check your connection.";
     }
     playerState.favorites = await loadFavorites();
     playerState.notify();
@@ -324,17 +324,17 @@ async function getDiscordRealOutputDeviceId(): Promise<string> {
 
 async function playerPlayTrack(track: ScTrack, fromFavIdx = -1) {
     const s = playerState;
-    if (!s.clientId) { s.status = "âŒ Missing client_id"; s.notify(); return; }
+    if (!s.clientId) { s.status = "❌ Missing client_id"; s.notify(); return; }
     if (s.audio) { s.audio.pause(); s.audio.src = ""; s.audio = null; }
 
-    s.status = "â³ Refreshing track...";
+    s.status = "⏳ Refreshing track...";
     s.playing = track;
     s.favIndex = fromFavIdx;
     s.progress = 0; s.position = 0; s.isPlaying = false;
     s.notify();
 
     try {
-        // RafraÃ®chir les donnÃ©es de la piste pour Ã©viter les 404 (liens expirÃ©s)
+        // Rafraîchir les données de la piste pour éviter les 404 (liens expirés)
         const freshTrack = await refreshTrackData(track, s.clientId);
         s.playing = freshTrack;
 
@@ -353,11 +353,11 @@ async function playerPlayTrack(track: ScTrack, fromFavIdx = -1) {
             const { error } = audio;
             console.error("[SoundCord] HTML5 Audio Error:", error?.code, error?.message);
             if (error?.code === 4 || error?.code === 3) {
-                s.status = "âŒ Stream error : No supported source found (Region lock?)";
+                s.status = "❌ Stream error : No supported source found (Region lock?)";
             } else if (error?.code === 2) {
-                s.status = "âŒ Network error : Connection failed";
+                s.status = "❌ Network error : Connection failed";
             } else {
-                s.status = `âŒ Audio playback error (${error?.code || "unknown"})`;
+                s.status = `❌ Audio playback error (${error?.code || "unknown"})`;
             }
             s.isPlaying = false;
             s.notify();
@@ -398,13 +398,13 @@ async function playerPlayTrack(track: ScTrack, fromFavIdx = -1) {
                 playerPlayFavAt((fromFavIdx + 1) % s.favorites.length);
             }
         });
-        audio.addEventListener("error", () => { s.status = "âŒ Audio playback error"; s.isPlaying = false; s.notify(); });
+        audio.addEventListener("error", () => { s.status = "❌ Audio playback error"; s.isPlaying = false; s.notify(); });
         await audio.play();
         s.isPlaying = true;
-        s.status = "â–¶ Now playingâ€¦";
+        s.status = "▶ Now playing…";
         s.notify();
     } catch (e: any) {
-        s.status = `âŒ Stream error : ${e.message}`;
+        s.status = `❌ Stream error : ${e.message}`;
         s.isPlaying = false;
         s.notify();
     }
@@ -425,7 +425,7 @@ function playerStop() {
     s.notify();
 }
 
-// â”€â”€â”€ Player Synchronization Hook â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Player Synchronization Hook ────────────────────────────────────────────────
 
 function usePlayerState() {
     const [, forceUpdate] = useState(0);
@@ -437,9 +437,9 @@ function usePlayerState() {
     return playerState;
 }
 
-// â”€â”€â”€ Composant principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Composant principal ──────────────────────────────────────────────────────
 
-// â”€â”€ SVG Icons â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── SVG Icons ─────────────────────────────────────────────────────────────────
 
 function IconSearch() {
     return <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round"><circle cx={11} cy={11} r={8} /><line x1={21} y1={21} x2={16.65} y2={16.65} /></svg>;
@@ -477,7 +477,7 @@ function IconMusicNote() {
     return <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor"><path d="M9 18V5l12-2v13" /><circle cx={6} cy={18} r={3} /><circle cx={18} cy={16} r={3} /></svg>;
 }
 
-// â”€â”€â”€ Composant principal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Composant principal ──────────────────────────────────────────────────────
 
 const SC_OUTPUT_KEY = "SoundCordPlayer_outputDevice";
 
@@ -502,10 +502,10 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                 let devices = await navigator.mediaDevices.enumerateDevices();
                 const outputs = devices.filter(d => d.kind === "audiooutput");
 
-                // Si les labels sont vides (permission pas encore accordÃ©e), on essaie de les obtenir
+                // Si les labels sont vides (permission pas encore accordée), on essaie de les obtenir
                 if (outputs.some(d => !d.label)) {
                     try {
-                        // Demander accÃ¨s micro dÃ©clenche la permission pour lister les outputs aussi
+                        // Demander accès micro déclenche la permission pour lister les outputs aussi
                         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                         stream.getTracks().forEach(t => t.stop());
                         devices = await navigator.mediaDevices.enumerateDevices();
@@ -673,7 +673,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
                             onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                         <div className="sc-track-info">
                             <div className="sc-track-title">{track.title}</div>
-                            <div className="sc-track-artist">{track.artist} Â· {fmtDuration(track.durationMs)}</div>
+                            <div className="sc-track-artist">{track.artist} · {fmtDuration(track.durationMs)}</div>
                         </div>
                         <button className="sc-play-btn"
                             onClick={e => { e.stopPropagation(); tab === "favs" ? playerPlayFavAt(idx) : playerPlayTrack(track); }}>
@@ -734,7 +734,7 @@ function SoundCloudModal({ onClose }: { onClose: () => void; }) {
     );
 }
 
-// â”€â”€â”€ Thumbnail Toolbar Windows â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Thumbnail Toolbar Windows ──────────────────────────────────────────────
 
 let thumbarListener: (() => void) | null = null;
 
@@ -783,7 +783,7 @@ function cleanupThumbar() {
     } catch { }
 }
 
-// â”€â”€â”€ Bouton HeaderBar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Bouton HeaderBar ─────────────────────────────────────────────────────────
 
 function SCHeaderBarButton() {
     return (
@@ -800,7 +800,7 @@ function SCHeaderBarButton() {
     );
 }
 
-// â”€â”€â”€ Rich Presence â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Rich Presence ───────────────────────────────────────────────────────────────────
 
 const RPC_SOCKET_ID = "SoundCordPlayer";
 const RPC_APP_ID = "1108588077900898414"; // Shared Discord music app ID
@@ -929,7 +929,7 @@ function handleSoundCordCommand(e: any) {
     }
 }
 
-// â”€â”€â”€ Plugin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─── Plugin ───────────────────────────────────────────────────────────────────
 
 export const settings = definePluginSettings({
     richPresence: {
@@ -957,7 +957,7 @@ export const settings = definePluginSettings({
 export default definePlugin({
     name: "SoundCordPlayer",
     enabledByDefault: true,
-    description: "Integrated SoundCord player. Client ID is automatically fetched via native Electron process â€” no account required.",
+    description: "Integrated SoundCord player. Client ID is automatically fetched via native Electron process — no account required.",
     authors: [EquicordDevs.nobody],
     settings,
 
