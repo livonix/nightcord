@@ -56,11 +56,16 @@ jobs:
           Compress-Archive -Path "$staging\*" -DestinationPath "youcord-dist.zip" -Force
           Write-Host "youcord-dist.zip created ($($(Get-Item youcord-dist.zip).Length / 1MB) MB)"
 
-      - name: Upload youcord-dist.zip to Release
+      - name: Build Installer (.exe)
+        run: npx electron-builder --config electron-builder.config.cjs --win --publish never
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload to Release
         uses: softprops/action-gh-release@v2
         with:
           files: |
             youcord-dist.zip
-            dist/desktop.asar
+            release/**/*.exe
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

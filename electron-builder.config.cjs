@@ -214,8 +214,20 @@ module.exports = {
     files: ["index.js", "dist/desktop/**/*", "!**/*.map", "!**/*.ts"],
     directories: { output: "release", buildResources: "desktop/assets" },
     win: {
-        target: [{ target: "dir", arch: ["x64"] }],
+        target: [
+            { target: "nsis", arch: ["x64"] },
+            { target: "dir", arch: ["x64"] }
+        ],
         icon: "youcord.ico",
         requestedExecutionLevel: "asInvoker"
+    },
+    nsis: {
+        oneClick: false,
+        perMachine: false,
+        allowToChangeInstallationDirectory: true,
+        deleteAppDataOnUninstall: false,
+        installerIcon: "youcord.ico",
+        uninstallerIcon: "youcord.ico",
+        license: "LICENSE"
     }
 };
