@@ -32,49 +32,24 @@ jobs:
       - name: Build Equicord renderer (standalone)
         run: pnpm buildStandalone
 
-      - name: Build & Package Electron
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          node electron-builder.config.cjs || true
-          npx electron-builder --config electron-builder.config.cjs --win --publish always
-
       - name: Package youcord-dist.zip
         shell: pwsh
         run: |
-          # youcord-dist.zip â€” structure attendue par l'installeur (Program.cs EnsureDistAsync) :
-          # la racine du zip = _distDir (%LOCALAPPDATA%\YouCord\dist\)
-          # => patcher.js DOIT Ãªtre Ã  la racine, pas dans un sous-dossier dist\desktop\
           $staging = "youcord-dist-staging"
           New-Item -ItemType Directory -Path $staging -Force | Out-Null
 
-          # Fichiers JS compilÃ©s : on copie le CONTENU de dist\desktop\ Ã  la racine du staging
-          # (patcher.js, renderer.js, preload.js, etc. directement accessibles)
           if (Test-Path "dist\desktop") {
             Copy-Item "dist\desktop\*" "$staging\" -Recurse -Force
           } elseif (Test-Path "dist") {
-            # Fallback : ancienne structure
             Copy-Item "dist\*" "$staging\" -Recurse -Force
           }
 
-          # Ghost-server (voice/stream server)
           if (Test-Path "ghost-server") {
             Copy-Item "ghost-server" "$staging\ghost-server" -Recurse
           }
 
-          # Static assets from release/youcord-dist (ffmpeg.dll, modules, mac/, multi-instance-icons/, etc.)
-          if (Test-Path "release\youcord-dist") {
-            Copy-Item "release\youcord-dist\*" "$staging\" -Recurse -Force
-          }
-
-          # Entry-point files
-          foreach ($f in @("youcord-index.js", "youcord-preload.js")) {
-            if (Test-Path $f) { Copy-Item $f "$staging\" }
-          }
-
-          # Sanity-check : patcher.js doit Ãªtre Ã  la racine
           if (-not (Test-Path "$staging\patcher.js")) {
-            Write-Error "BUILD ERROR: patcher.js absent de la racine du staging â€” l'installeur ne pourra pas fonctionner."
+            Write-Error "BUILD ERROR: patcher.js missing from staging root"
             exit 1
           }
 

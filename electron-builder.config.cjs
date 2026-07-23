@@ -35,7 +35,11 @@ function findDiscordApp() {
             if (v[0] > bestVer[0] || v[1] > bestVer[1] || v[2] > bestVer[2]) { bestVer = v; best = join(base, e); }
         }
     } catch { }
-    if (!best) throw new Error("Discord introuvable. Assurez-vous que Discord est installÃ©.");
+    if (!best && process.env.DISCORD_PATH) {
+        best = process.env.DISCORD_PATH;
+        console.log("[CI] Utilisation de DISCORD_PATH:", best);
+    }
+    if (!best) throw new Error("Discord introuvable. Assurez-vous que Discord est installé.");
     return best;
 }
 
