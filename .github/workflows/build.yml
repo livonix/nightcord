@@ -104,3 +104,46 @@ jobs:
                           gh release upload $tag --clobber $_.FullName
                       }
                   }
+
+    Build-Mac:
+        name: Build YouCord (macOS)
+        runs-on: macos-latest
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: pnpm/action-setup@v4
+
+            - name: Use Node.js 22
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 22
+                  cache: "pnpm"
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
+
+            - name: Build standalone
+              run: pnpm buildStandalone
+
+            - name: Generate plugin lists
+              run: |
+                  pnpm generatePluginJson dist/plugins.json
+                  pnpm generateEquicordPluginJson dist/equicordplugins.json
+                  pnpm generateVencordPluginJson dist/vencordplugins.json
+                  pnpm generateDevsList dist/devs.json
+
+            - name: Build desktop app & package .app/.dmg
+              run: |
+                  pnpm buildDesktop
+                  npx electron-builder --config electron-builder.config.cjs --mac --publish never
+
+            - name: Create or update latest release
+              env:
+                  GH_TOKEN: ${{ github.token }}
+              run: |
+                  tag="latest"
+                  gh release create $tag --title "Latest Build" --notes "Automated build from main branch ($GITHUB_SHA)" --latest=false 2>/dev/null || true
+                  for f in release/*.dmg release/*.zip release/*.app.tar.gz; do
+                      [ -f "$f" ] && gh release upload $tag --clobber "$f"
+                  done
